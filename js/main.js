@@ -127,3 +127,4 @@ function createListOfAnnouncements() {
   }
   return announcementList;
 }
+createListOfAnnouncements();

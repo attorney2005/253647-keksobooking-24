@@ -1,1 +1,3 @@
 webpack.config.js
+js/utils/get-random-positive-float.js
+js/utils/get-random-positive-integer.js
