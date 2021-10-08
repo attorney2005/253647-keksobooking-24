@@ -101,10 +101,23 @@ function getRandomArrayElement(elements) {
   return elements[_.random(0, elements.length - 1)];
 }
 
+function getRandomSubArray(originalArray) {
+  const subArrayLength = getRandomPositiveInteger(1, originalArray.length - 1);
+  return originalArray.slice(0, subArrayLength);
+}
+
 function getAnnouncement() {
   const userId = getRandomArrayElement(USER_IDS);
-  const locationLat = getRandomPositiveFloat(LATITUDE_MIN, LATITUDE_MAX, LOCATION_ACCURACY);
-  const locationLng = getRandomPositiveFloat(LONGITUDE_MIN, LONGITUDE_MAX, LOCATION_ACCURACY);
+  const locationLat = getRandomPositiveFloat(
+    LATITUDE_MIN,
+    LATITUDE_MAX,
+    LOCATION_ACCURACY,
+  );
+  const locationLng = getRandomPositiveFloat(
+    LONGITUDE_MIN,
+    LONGITUDE_MAX,
+    LOCATION_ACCURACY,
+  );
 
   return {
     author: {
@@ -119,9 +132,9 @@ function getAnnouncement() {
       guests: getRandomPositiveInteger(0, GUESTS_MAX),
       checkin: getRandomArrayElement(CHECK_IN),
       checkout: getRandomArrayElement(CHECK_OUT),
-      features: [getRandomArrayElement(FEATURES)],
+      features: getRandomSubArray(FEATURES),
       description: getRandomArrayElement(DESCRIPTIONS),
-      photos: [getRandomArrayElement(PHOTOS)],
+      photos: getRandomSubArray(PHOTOS),
     },
     location: {
       lat: locationLat,
