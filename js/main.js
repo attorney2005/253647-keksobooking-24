@@ -39,7 +39,7 @@ const CHECK_IN = [
 ];
 
 const CHECK_OUT = [
-  '12: 00',
+  '12:00',
   '13:00',
   '14:00',
 ];
@@ -72,6 +72,16 @@ const PHOTOS = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
 
+const LATITUDE_MIN = 35.65000;
+const LATITUDE_MAX = 35.70000;
+const LONGITUDE_MIN = 139.70000;
+const LONGITUDE_MAX = 139.80000;
+const LOCATION_ACCURACY = 5;
+const PRICE_MAX = 100000;
+const ROOMS_MAX = 100;
+const GUESTS_MAX = 100;
+const ANNOUNCEMENT_NUMBER = 10;
+
 
 function getRandomPositiveInteger(from, to) {
   const lower = Math.ceil(Math.min(Math.abs(from), Math.abs(to)));
@@ -91,10 +101,23 @@ function getRandomArrayElement(elements) {
   return elements[_.random(0, elements.length - 1)];
 }
 
+function getRandomSubArray(originalArray) {
+  const subArrayLength = getRandomPositiveInteger(1, originalArray.length - 1);
+  return originalArray.slice(0, subArrayLength);
+}
+
 function getAnnouncement() {
   const userId = getRandomArrayElement(USER_IDS);
-  const locationLat = getRandomPositiveFloat(35.65000, 35.70000, 5);
-  const locationLng = getRandomPositiveFloat(139.70000, 139.80000, 5);
+  const locationLat = getRandomPositiveFloat(
+    LATITUDE_MIN,
+    LATITUDE_MAX,
+    LOCATION_ACCURACY,
+  );
+  const locationLng = getRandomPositiveFloat(
+    LONGITUDE_MIN,
+    LONGITUDE_MAX,
+    LOCATION_ACCURACY,
+  );
 
   return {
     author: {
@@ -103,15 +126,15 @@ function getAnnouncement() {
     offer: {
       title: getRandomArrayElement(TITLES),
       address: String(`${locationLat}, ${locationLng}`),
-      price: getRandomPositiveInteger(0, 100000),
+      price: getRandomPositiveInteger(0, PRICE_MAX),
       type: getRandomArrayElement(TYPES),
-      rooms: getRandomPositiveInteger(0, 100),
-      guests: getRandomPositiveInteger(0, 100),
+      rooms: getRandomPositiveInteger(0, ROOMS_MAX),
+      guests: getRandomPositiveInteger(0, GUESTS_MAX),
       checkin: getRandomArrayElement(CHECK_IN),
       checkout: getRandomArrayElement(CHECK_OUT),
-      features: [getRandomArrayElement(FEATURES)],
+      features: getRandomSubArray(FEATURES),
       description: getRandomArrayElement(DESCRIPTIONS),
-      photos: [getRandomArrayElement(PHOTOS)],
+      photos: getRandomSubArray(PHOTOS),
     },
     location: {
       lat: locationLat,
@@ -120,11 +143,13 @@ function getAnnouncement() {
   };
 }
 
-function createListOfAnnouncements() {
+function createListOfAnnouncements(num) {
   const announcementList = [];
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < num; index++) {
     announcementList.push(getAnnouncement());
   }
   return announcementList;
 }
-createListOfAnnouncements();
+
+createListOfAnnouncements(ANNOUNCEMENT_NUMBER);
+// console.log(createListOfAnnouncements(ANNOUNCEMENT_NUMBER));
