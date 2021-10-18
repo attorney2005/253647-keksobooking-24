@@ -17,7 +17,7 @@ function getRandomArrayElement(elements) {
 }
 
 function getRandomSubArray(originalArray) {
-  const subArrayLength = getRandomPositiveInteger(1, originalArray.length - 1);
+  const subArrayLength = getRandomPositiveInteger(1, originalArray.length);
   return originalArray.slice(0, subArrayLength);
 }
 
