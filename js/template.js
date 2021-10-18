@@ -49,7 +49,7 @@ function renderFeatures(featureNames) {
   }
 
   return fragment;
-};
+}
 
 function renderPhotos(photoUrls) {
   const fragment = document.createDocumentFragment();
@@ -57,12 +57,12 @@ function renderPhotos(photoUrls) {
   for (let i = 0; i < photoUrls.length; i++) {
     const photoDomElement = document.createElement('img');
     photoDomElement.src = photoUrls[i];
-    photoDomElement.width = "45";
-    photoDomElement.height = "40";
-    photoDomElement.alt = "Фотография жилья";
+    photoDomElement.width = '45';
+    photoDomElement.height = '40';
+    photoDomElement.alt = 'Фотография жилья';
     photoDomElement.classList.add('popup__photo');
     fragment.appendChild(photoDomElement);
-  };
+  }
 
   return fragment;
 }
@@ -80,9 +80,9 @@ function renderAnnouncementCard(announcementData) {
   card.querySelector('.popup__text--capacity').textContent = getCapacityText(offer.rooms, offer.guests);
   card.querySelector('.popup__text--time').textContent = getCheckTime(offer.checkin, offer.checkout);
   card.querySelector('.popup__description').textContent = offer.description;
-  card.querySelector('.popup__features').innerHTML = "";
+  card.querySelector('.popup__features').innerHTML = '';
   card.querySelector('.popup__features').appendChild(renderFeatures(offer.features));
-  card.querySelector('.popup__photos').innerHTML = "";
+  card.querySelector('.popup__photos').innerHTML = '';
   card.querySelector('.popup__photos').appendChild(renderPhotos(offer.photos));
   card.querySelector('.popup__avatar').src = announcementData.author.avatar;
 
