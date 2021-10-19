@@ -53,7 +53,7 @@ const CHECK_OUT = [
 
 const FEATURES = [
   'wifi',
-  'dishwather',
+  'dishwasher',
   'parking',
   'washer',
   'elevator',
@@ -87,6 +87,7 @@ const LOCATION_ACCURACY = 5;
 const PRICE_MAX = 100000;
 const ROOMS_MAX = 100;
 const GUESTS_MAX = 100;
+const NUMBER_OF_ANNOUNCEMENTS = 10;
 
 function getAnnouncement() {
   const userId = getRandomArrayElement(USER_IDS);
@@ -125,9 +126,9 @@ function getAnnouncement() {
   };
 }
 
-function createListOfAnnouncements(num) {
+function createListOfAnnouncements() {
   const announcementList = [];
-  for (let index = 0; index < num; index++) {
+  for (let index = 0; index < NUMBER_OF_ANNOUNCEMENTS; index++) {
     announcementList.push(getAnnouncement());
   }
   return announcementList;
