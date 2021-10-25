@@ -5,6 +5,12 @@ const typeSelect = document.querySelector('#type');
 const roomsSelect = document.querySelector('#room_number');
 const guestsSelect = document.querySelector('#capacity');
 
+const room0 = '0';
+const room1 = '1'; 
+const room2 = '2'; 
+const room3 = '3'; 
+const room100 = '100'; 
+
 const button = document.querySelector('.ad-form__submit');
 
 form.setAttribute('action', 'https://24.javascript.pages.academy/keksobooking');
@@ -43,30 +49,32 @@ const disableRoomSelects = function () {
 };
 
 const roomNumberChangeHandler = function () {
+
     disableRoomSelects();
-    const choosenValue = (roomsSelect.value === '100') ? '0' : roomsSelect.value;
-    if (choosenValue === '0' || choosenValue === '1') {
+
+    const choosenValue = (roomsSelect.value === room100) ? room0 : roomsSelect.value;
+    if (choosenValue === room0 || choosenValue === room1 ) {
         for (let i = 0; i < guestsSelect.options.length; i++) {
             if (guestsSelect.options[i].value === choosenValue) {
                 guestsSelect.options[i].disabled = false;
             }
         }
     }
-    if (choosenValue === '2') {
+    if (choosenValue === room2) {
         for (let i = 0; i < guestsSelect.options.length; i++) {
-            if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value ==='1') {
+            if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room1) {
                 guestsSelect.options[i].disabled = false;
             }
         }
     }
-    if (choosenValue === '3') {
+    if (choosenValue === room3) {
         for (let i = 0; i < guestsSelect.options.length; i++) {
-            if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value ==='2'|| guestsSelect.options[i].value ==='1') {
+            if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room2 || guestsSelect.options[i].value === room1) {
                 guestsSelect.options[i].disabled = false;
             }
         }
     }
-    for (var i = 0; i < guestsSelect.options.length; i++) {
+    for (let i = 0; i < guestsSelect.options.length; i++) {
         if (!guestsSelect.options[i].disabled) {
             guestsSelect.options[i].selected = true;
             break;
@@ -86,9 +94,6 @@ roomNumberChangeHandler();
 //         '3': ['3', '2', '1'],
 //         '100': ['0']
 //     };
-
-// roomsSelect.addEventListener('change', setGuestLimit);
-// setGuestLimit();
 
 //тестовые данные
 // titleInput.value = 'Уютный домик в деревне Старки Московской области рядом с Черноголовкой'
