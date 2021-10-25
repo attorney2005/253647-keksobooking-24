@@ -6,10 +6,10 @@ const roomsSelect = document.querySelector('#room_number');
 const guestsSelect = document.querySelector('#capacity');
 
 const room0 = '0';
-const room1 = '1'; 
-const room2 = '2'; 
-const room3 = '3'; 
-const room100 = '100'; 
+const room1 = '1';
+const room2 = '2';
+const room3 = '3';
+const room100 = '100';
 
 const button = document.querySelector('.ad-form__submit');
 
@@ -52,28 +52,76 @@ const roomNumberChangeHandler = function () {
 
     disableRoomSelects();
 
-    const choosenValue = (roomsSelect.value === room100) ? room0 : roomsSelect.value;
-    if (choosenValue === room0 || choosenValue === room1 ) {
+    // const choosenValue = (roomsSelect.value === room100) ? room0 : roomsSelect.value;
+
+    // if (choosenValue === room0 || choosenValue === room1) {
+    //     for (let i = 0; i < guestsSelect.options.length; i++) {
+    //         if (guestsSelect.options[i].value === choosenValue) {
+    //             guestsSelect.options[i].disabled = false;
+    //         }
+    //     }
+    // }
+    // if (choosenValue === room2) {
+    //     for (let i = 0; i < guestsSelect.options.length; i++) {
+    //         if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room1) {
+    //             guestsSelect.options[i].disabled = false;
+    //         }
+    //     }
+    // }
+    // if (choosenValue === room3) {
+    //     for (let i = 0; i < guestsSelect.options.length; i++) {
+    //         if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room2 || guestsSelect.options[i].value === room1) {
+    //             guestsSelect.options[i].disabled = false;
+    //         }
+    //     }
+    // }
+
+    // for (let i = 0; i < guestsSelect.options.length; i++) {
+    //     if (!guestsSelect.options[i].disabled) {
+    //         guestsSelect.options[i].selected = true;
+    //         break;
+    //     }
+    // }
+
+    //  DRAFT SWITCN CASE
+
+    const choosenValue = roomsSelect.value;
+
+    switch (choosenValue) {
+        case room100: 
+    
         for (let i = 0; i < guestsSelect.options.length; i++) {
-            if (guestsSelect.options[i].value === choosenValue) {
+            if (guestsSelect.options[i].value === room0) {
                 guestsSelect.options[i].disabled = false;
             }
-        }
+        };
+        break;
+
+        case room1:
+            for (let i = 0; i < guestsSelect.options.length; i++) {
+                if (guestsSelect.options[i].value === choosenValue) {
+                    guestsSelect.options[i].disabled = false;
+                }
+            };
+            break;
+
+        case room2:
+            for (let i = 0; i < guestsSelect.options.length; i++) {
+                if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room1) {
+                    guestsSelect.options[i].disabled = false;
+                }
+            };
+            break;
+
+        case room3:
+            for (let i = 0; i < guestsSelect.options.length; i++) {
+                if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room2 || guestsSelect.options[i].value === room1) {
+                    guestsSelect.options[i].disabled = false;
+                }
+            };
+            break;
     }
-    if (choosenValue === room2) {
-        for (let i = 0; i < guestsSelect.options.length; i++) {
-            if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room1) {
-                guestsSelect.options[i].disabled = false;
-            }
-        }
-    }
-    if (choosenValue === room3) {
-        for (let i = 0; i < guestsSelect.options.length; i++) {
-            if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room2 || guestsSelect.options[i].value === room1) {
-                guestsSelect.options[i].disabled = false;
-            }
-        }
-    }
+
     for (let i = 0; i < guestsSelect.options.length; i++) {
         if (!guestsSelect.options[i].disabled) {
             guestsSelect.options[i].selected = true;
