@@ -11,7 +11,7 @@ const room2 = '2';
 const room3 = '3';
 const room100 = '100';
 
-const button = document.querySelector('.ad-form__submit');
+// const button = document.querySelector('.ad-form__submit');
 
 form.setAttribute('action', 'https://24.javascript.pages.academy/keksobooking');
 form.setAttribute('method', 'POST');
@@ -26,80 +26,79 @@ priceInput.setAttribute('number', true);
 priceInput.setAttribute('max', '10000');
 
 function setMinPriceForType() {
-    const typeToMinPrice = {
-        'bungalow': 0,
-        'flat': 1000,
-        'hotel': 3000,
-        'house': 5000,
-        'palace': 10000,
-    };
-    const type = typeSelect.value;
-    const price = typeToMinPrice[type];
-    priceInput.setAttribute('min', price);
-    priceInput.setAttribute('placeholder', price);
+  const typeToMinPrice = {
+    'bungalow': 0,
+    'flat': 1000,
+    'hotel': 3000,
+    'house': 5000,
+    'palace': 10000,
+  };
+  const type = typeSelect.value;
+  const price = typeToMinPrice[type];
+  priceInput.setAttribute('min', price);
+  priceInput.setAttribute('placeholder', price);
 }
 
 typeSelect.addEventListener('change', setMinPriceForType);
 setMinPriceForType();
 
 const disableRoomSelects = function () {
-    for (var i = 0; i < guestsSelect.options.length; i++) {
-        guestsSelect.options[i].disabled = true;
-    }
+  for (let i = 0; i < guestsSelect.options.length; i++) {
+    guestsSelect.options[i].disabled = true;
+  }
 };
 
 const roomNumberChangeHandler = function () {
 
-    disableRoomSelects();
+  disableRoomSelects();
 
-    const choosenValue = roomsSelect.value;
+  const choosenValue = roomsSelect.value;
 
-    switch (choosenValue) {
-        case room100:
-            for (let i = 0; i < guestsSelect.options.length; i++) {
-                if (guestsSelect.options[i].value === room0) {
-                    guestsSelect.options[i].disabled = false;
-                }
-            };
-            break;
-
-        case room1:
-            for (let i = 0; i < guestsSelect.options.length; i++) {
-                if (guestsSelect.options[i].value === choosenValue) {
-                    guestsSelect.options[i].disabled = false;
-                }
-            };
-            break;
-
-        case room2:
-            for (let i = 0; i < guestsSelect.options.length; i++) {
-                if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room1) {
-                    guestsSelect.options[i].disabled = false;
-                }
-            };
-            break;
-
-        case room3:
-            for (let i = 0; i < guestsSelect.options.length; i++) {
-                if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room2 || guestsSelect.options[i].value === room1) {
-                    guestsSelect.options[i].disabled = false;
-                }
-            };
-            break;
-    }
-
-    for (let i = 0; i < guestsSelect.options.length; i++) {
-        if (!guestsSelect.options[i].disabled) {
-            guestsSelect.options[i].selected = true;
-            break;
+  switch (choosenValue) {
+    case room100:
+      for (let i = 0; i < guestsSelect.options.length; i++) {
+        if (guestsSelect.options[i].value === room0) {
+          guestsSelect.options[i].disabled = false;
         }
+      }
+      break;
+
+    case room1:
+      for (let i = 0; i < guestsSelect.options.length; i++) {
+        if (guestsSelect.options[i].value === choosenValue) {
+          guestsSelect.options[i].disabled = false;
+        }
+      }
+      break;
+
+    case room2:
+      for (let i = 0; i < guestsSelect.options.length; i++) {
+        if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room1) {
+          guestsSelect.options[i].disabled = false;
+        }
+      }
+      break;
+
+    case room3:
+      for (let i = 0; i < guestsSelect.options.length; i++) {
+        if (guestsSelect.options[i].value === choosenValue || guestsSelect.options[i].value === room2 || guestsSelect.options[i].value === room1) {
+          guestsSelect.options[i].disabled = false;
+        }
+      }
+      break;
+  }
+
+  for (let i = 0; i < guestsSelect.options.length; i++) {
+    if (!guestsSelect.options[i].disabled) {
+      guestsSelect.options[i].selected = true;
+      break;
     }
-}
+  }
+};
 
 roomsSelect.addEventListener('change', roomNumberChangeHandler);
 
 roomNumberChangeHandler();
-
 
 
 //     const roomToGuestMap = {
