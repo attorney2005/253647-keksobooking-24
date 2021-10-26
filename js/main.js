@@ -1,5 +1,6 @@
 import { createListOfAnnouncements } from './data.js';
 import { renderAnnouncementCard } from './template.js';
+import './form.js';
 
 const announcementList = createListOfAnnouncements();
 const announcementData = announcementList[0];
