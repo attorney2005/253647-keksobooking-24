@@ -1,4 +1,5 @@
 
+
 const form = document.querySelector('.ad-form');
 const adFormFieldset = form.querySelectorAll('fieldset');
 const titleInput = document.querySelector('#title');
@@ -28,22 +29,23 @@ priceInput.setAttribute('number', true);
 priceInput.setAttribute('max', '10000');
 
 const typeToMinPrice = {
-  'bungalow': 0,
-  'flat': 1000,
-  'hotel': 3000,
-  'house': 5000,
-  'palace': 10000,
+    'bungalow': 0,
+    'flat': 1000,
+    'hotel': 3000,
+    'house': 5000,
+    'palace': 10000,
 };
 
 function setMinPriceForType() {
-  const type = typeSelect.value;
-  const price = typeToMinPrice[type];
-  priceInput.setAttribute('min', price);
-  priceInput.setAttribute('placeholder', price);
+    const type = typeSelect.value;
+    const price = typeToMinPrice[type];
+    priceInput.setAttribute('min', price);
+    priceInput.setAttribute('placeholder', price);
 }
 
 typeSelect.addEventListener('change', setMinPriceForType);
 setMinPriceForType();
+
 
 function disableRoomSelects() {
 
