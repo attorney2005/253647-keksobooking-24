@@ -6,6 +6,8 @@ const priceInput = document.querySelector('#price');
 const typeSelect = document.querySelector('#type');
 const roomsSelect = document.querySelector('#room_number');
 const guestsSelect = document.querySelector('#capacity');
+const timeOutSelect = document.querySelector('#timeout');
+const timeInSelect = document.querySelector('#timein');
 
 const ROOM_0 = '0';
 const ROOM_1 = '1';
@@ -122,8 +124,6 @@ function enableInactiveState() {
   setDisabled(adFormFieldset, true);
 }
 
-
 export {
     enableInactiveState
   };
-  
