@@ -1,4 +1,4 @@
-
+import './map.js';
 
 const form = document.querySelector('.ad-form');
 const adFormFieldset = form.querySelectorAll('fieldset');
@@ -102,7 +102,6 @@ function roomNumberChangeHandler() {
 }
 
 roomsSelect.addEventListener('change', roomNumberChangeHandler);
-
 roomNumberChangeHandler();
 
 // Добавление disabled
@@ -127,5 +126,6 @@ function enableInactiveState() {
 }
 
 export {
-    enableInactiveState
+    enableInactiveState,
+    enableActiveState
   };

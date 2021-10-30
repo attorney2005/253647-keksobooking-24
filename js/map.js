@@ -1,10 +1,12 @@
+import './form.js';
 const map = L.map("map-canvas")
   .on('load', () => {
+   
   })
   .setView({
-    lat: 35.6894,
-    lng: 139.692,
-  }, 10);
+    lat: 35.68172,
+    lng: 139.75392,
+  }, 14);
   
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -13,6 +15,4 @@ L.tileLayer(
   },
 ).addTo(map);
 
-export {
-  map
-}
+ enableActiveState();
