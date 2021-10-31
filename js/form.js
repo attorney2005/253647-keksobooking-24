@@ -43,12 +43,7 @@ function setMinPriceForType() {
     priceInput.setAttribute('placeholder', price);
 }
 
-typeSelect.addEventListener('change', setMinPriceForType);
-setMinPriceForType();
-
-
 function disableRoomSelects() {
-
   for (let i = 0; i < guestsSelect.options.length; i++) {
     guestsSelect.options[i].disabled = true;
   }
@@ -56,6 +51,7 @@ function disableRoomSelects() {
 
 function roomNumberChangeHandler() {
   disableRoomSelects();
+
   const choosenValue = roomsSelect.value;
 
   switch (choosenValue) {
@@ -101,17 +97,12 @@ function roomNumberChangeHandler() {
   }
 }
 
-roomsSelect.addEventListener('change', roomNumberChangeHandler);
-roomNumberChangeHandler();
-
 // Добавление disabled
 function setDisabled(collection, value) {
   collection.forEach((item) => {
     item.disabled = value;
   });
 }
-
-setDisabled(adFormFieldset, true);
 
 // Перевод в активное состояние
 function enableActiveState() {
@@ -124,6 +115,14 @@ function enableInactiveState() {
 
   setDisabled(adFormFieldset, true);
 }
+
+typeSelect.addEventListener('change', setMinPriceForType);
+setMinPriceForType();
+
+roomsSelect.addEventListener('change', roomNumberChangeHandler);
+roomNumberChangeHandler();
+
+setDisabled(adFormFieldset, true);
 
 export {
     enableInactiveState,

@@ -1,4 +1,4 @@
-import './form.js';
+import {enableActiveState} from './form.js';
 const map = L.map("map-canvas")
   .on('load', () => {
    
