@@ -1,8 +1,13 @@
 import { createListOfAnnouncements } from './data.js';
 import { renderAnnouncementCard } from './template.js';
-import {enableInactiveState} from './form.js';
-import './map.js';
+import { initForm, activateForm } from './form.js';
+import { initMap } from './map.js';
 
 const announcementList = createListOfAnnouncements();
 
-enableInactiveState();
+initForm();
+initMap(onMapLoaded);
+
+function onMapLoaded() {
+    activateForm();
+}
