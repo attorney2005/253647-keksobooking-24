@@ -33,7 +33,7 @@ function initMap(onLoad) {
   mainPinMarker.addTo(map);
   
   mainPinMarker.on('moveend', (evt) => {
-    console.log(evt.target.getLatLng());
+    console.log(mainPinMarker.getLatLng());
   });
 }
 
