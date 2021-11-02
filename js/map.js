@@ -1,3 +1,8 @@
+import { renderAnnouncementCard } from './template.js';
+
+const addressSelect = document.querySelector('#address');
+addressSelect.setAttribute('readonly', true)
+
 function initMap(onLoad) {
   const map = L.map("map-canvas")
     .on('load', () => onLoad())
@@ -31,10 +36,44 @@ function initMap(onLoad) {
   );
     
   mainPinMarker.addTo(map);
+
+  // const points = renderAnnouncementCard();
   
+  // points.forEach(({lat, lng}) => {
+  //   const icon = L.icon({
+  //     iconUrl: 'img/pin.svg',
+  //     iconSize: [40, 40],
+  //     iconAnchor: [20, 40],
+  //   });
+  
+  //   const marker = L.marker(
+  //     {
+  //       lat,
+  //       lng,
+  //     },
+  //     {
+  //       icon,
+  //     },
+  //   );
+  
+  //   marker.addTo(map);
+  // });
+  
+  
+
+
+
+  // mainPinMarker.on('moveend', (evt) => {
+  //   console.log(evt.target.getLatLng());
+  // });
+ 
+
   mainPinMarker.on('moveend', (evt) => {
-    console.log(mainPinMarker.getLatLng());
+  const coordinates = Object.values(evt.target.getLatLng());
+  addressSelect.value = `${coordinates[0].toFixed(5)}, ${coordinates[1].toFixed(5)}`
+  
   });
+
 }
 
 

@@ -6,7 +6,6 @@ const typeSelect = document.querySelector('#type');
 const roomsSelect = document.querySelector('#room_number');
 const guestsSelect = document.querySelector('#capacity');
 const guestsSelectOptions = guestsSelect.querySelectorAll('option');
-const addressSelect = document.querySelector('#address');
 
 const TYPE_TO_MIN_PRICE_MAP = {
   'bungalow': 0,
@@ -38,9 +37,7 @@ function initForm() {
 
   typeSelect.addEventListener('change', setMinPrice);
   roomsSelect.addEventListener('change', setGuestsOptions);
-
-  addressSelect.setAttribute('readonly', true)
-
+ 
   setMinPrice(); 
   setGuestsOptions();
   disableForm();
