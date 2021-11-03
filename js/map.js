@@ -1,79 +1,87 @@
-import { renderAnnouncementCard } from './template.js';
+// функция инициализации формы
+function initMap(announcements, onLoad, onAddressSet) {
+  const map = createMap(onLoad);
+  const tileLayer = createTileLayer();
+  const mainMarker = createMainMarker(onAddressSet);
+  const publishedMarkers = createMarkers(announcements);
 
-const addressSelect = document.querySelector('#address');
-addressSelect.setAttribute('readonly', true)
+  tileLayer.addTo(map);  
+  mainMarker.addTo(map);
+  publishedMarkers.forEach((marker) => marker.addTo(map));
+}
 
-function initMap(onLoad) {
-  const map = L.map("map-canvas")
+// функция создания карты
+function createMap(onLoad) {
+  return L.map("map-canvas")
     .on('load', () => onLoad())
     .setView({
       lat: 35.68172,
       lng: 139.75392,
-    }, 14);
-    
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    },
-  ).addTo(map);
-  
-  const mainPinIcon = L.icon({
+    }, 14); 
+}
+
+// функция создания слоя карты 
+function createTileLayer() {
+  return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  });
+}
+
+// функция создания главной метки
+function createMainMarker(onAddressSet) {
+  const icon = L.icon({
     iconUrl: 'img/main-pin.svg',
     iconSize: [52, 52],
     iconAnchor: [26, 52],
   });
-  
-  const mainPinMarker = L.marker(
-    {
-      lat: 35.65862,
-      lng: 139.74539,
-    },
-    {
-      draggable: true,
-      icon: mainPinIcon,
-    },
-  );
-    
-  mainPinMarker.addTo(map);
 
-  // const points = renderAnnouncementCard();
-  
-  // points.forEach(({lat, lng}) => {
-  //   const icon = L.icon({
-  //     iconUrl: 'img/pin.svg',
-  //     iconSize: [40, 40],
-  //     iconAnchor: [20, 40],
-  //   });
-  
-  //   const marker = L.marker(
-  //     {
-  //       lat,
-  //       lng,
-  //     },
-  //     {
-  //       icon,
-  //     },
-  //   );
-  
-  //   marker.addTo(map);
-  // });
-  
-  
+  const marker = L.marker({
+    lat: 35.65862,
+    lng: 139.74539,
+  }, {
+    draggable: true,
+    icon: icon,
+  });
+// координаты главной метки по умолчанию
+  const coordinates = Object.values(marker.getLatLng());
+  const lat = coordinates[0].toFixed(5);
+  const lng = coordinates[1].toFixed(5);
+  onAddressSet(lat, lng);
 
-
-
-  // mainPinMarker.on('moveend', (evt) => {
-  //   console.log(evt.target.getLatLng());
-  // });
- 
-
-  mainPinMarker.on('moveend', (evt) => {
-  const coordinates = Object.values(evt.target.getLatLng());
-  addressSelect.value = `${coordinates[0].toFixed(5)}, ${coordinates[1].toFixed(5)}`
-  
+  // координаты главной метки при переносе главной метки
+  marker.on('moveend', (evt) => {
+    const coordinates = Object.values(evt.target.getLatLng());
+    const lat = coordinates[0].toFixed(5);
+    const lng = coordinates[1].toFixed(5);
+    onAddressSet(lat, lng);
   });
 
+  return marker;
+}
+
+// функция создания списка меток
+function createMarkers(announcements) {
+  return announcements.map((announcement) => createMarker(announcement));
+}
+
+// функция создания одной метки
+function createMarker(announcement) {
+  const icon = L.icon({
+    iconUrl: 'img/pin.svg',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  const marker = L.marker({
+    lat: announcement.location.lat,
+    lng: announcement.location.lng,
+  }, {
+    icon: icon,
+  });
+
+  marker.bindPopup(announcement.offer.title);
+
+  return marker;
 }
 
 

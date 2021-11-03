@@ -6,6 +6,7 @@ const typeSelect = document.querySelector('#type');
 const roomsSelect = document.querySelector('#room_number');
 const guestsSelect = document.querySelector('#capacity');
 const guestsSelectOptions = guestsSelect.querySelectorAll('option');
+const addressField = document.querySelector('#address');
 
 const TYPE_TO_MIN_PRICE_MAP = {
   'bungalow': 0,
@@ -26,32 +27,35 @@ function initForm() {
   form.setAttribute('action', 'https://24.javascript.pages.academy/keksobooking');
   form.setAttribute('method', 'POST');
   form.setAttribute('enctype', 'multipart/form-data');
-  
+
   titleInput.setAttribute('required', true);
   titleInput.setAttribute('minlength', '30');
   titleInput.setAttribute('maxlength', '100');
-  
+
   priceInput.setAttribute('required', true);
   priceInput.setAttribute('number', true);
   priceInput.setAttribute('max', '10000');
 
+  addressField.setAttribute('readonly', true);
+
   typeSelect.addEventListener('change', setMinPrice);
   roomsSelect.addEventListener('change', setGuestsOptions);
- 
-  setMinPrice(); 
+
+  setMinPrice();
   setGuestsOptions();
   disableForm();
 }
 
-function setCoordinates() {
-
+// функция установки установки координат в инпут 
+function setAddress(lat, lng) {
+  addressField.value = `${lat}, ${lng}`;
 }
 
 function setMinPrice() {
-    const type = typeSelect.value;
-    const price = TYPE_TO_MIN_PRICE_MAP[type];
-    priceInput.setAttribute('min', price);
-    priceInput.setAttribute('placeholder', price);
+  const type = typeSelect.value;
+  const price = TYPE_TO_MIN_PRICE_MAP[type];
+  priceInput.setAttribute('min', price);
+  priceInput.setAttribute('placeholder', price);
 }
 
 function setGuestsOptions() {
@@ -76,7 +80,7 @@ function activateFieldsets() {
 }
 
 function activateForm() {
-  form.classList.remove('ad-form--disabled'); 
+  form.classList.remove('ad-form--disabled');
   activateFieldsets();
 }
 
@@ -88,5 +92,6 @@ function disableForm() {
 export {
   disableForm,
   activateForm,
-  initForm
+  initForm,
+  setAddress
 };
