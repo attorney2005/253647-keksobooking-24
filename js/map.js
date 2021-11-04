@@ -1,4 +1,4 @@
-import {renderAnnouncementCard} from './template.js';
+import { renderAnnouncementCard } from './template.js';
 
 // функция инициализации формы
 function initMap(announcements, onLoad, onAddressSet) {
@@ -44,21 +44,24 @@ function createMainMarker(onAddressSet) {
     draggable: true,
     icon: icon,
   });
-  // координаты главной метки по умолчанию
-  const coordinates = Object.values(marker.getLatLng());
-  const lat = coordinates[0].toFixed(5);
-  const lng = coordinates[1].toFixed(5);
-  onAddressSet(lat, lng);
+
+  onAddressSet(getLat(marker), getLng(marker));
 
   // координаты главной метки при переносе главной метки
   marker.on('moveend', (evt) => {
-    const coordinates = Object.values(evt.target.getLatLng());
-    const lat = coordinates[0].toFixed(5);
-    const lng = coordinates[1].toFixed(5);
-    onAddressSet(lat, lng);
+    onAddressSet(getLat(evt.target), getLng(evt.target));
   });
 
   return marker;
+}
+
+// функции поолучения координат
+function getLng(marker) {
+  return marker.getLatLng().lng.toFixed(5);
+}
+
+function getLat(marker) {
+  return marker.getLatLng().lat.toFixed(5);
 }
 
 // функция создания списка меток
