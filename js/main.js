@@ -9,13 +9,13 @@ const announcements = createListOfAnnouncements();
 initForm();
 // вызов функции инициализации карты
 initMap(
-  announcements, 
-  onMapLoaded, 
-  onAddressSet
+  announcements,
+  onMapLoaded,
+  onAddressSet,
 );
-// кол-бэк функция вызываемая когда пользователь выбирает адрес 
+// кол-бэк функция вызываемая когда пользователь выбирает адрес
 function onAddressSet(lat, lng) {
-  // вызов функции установки установки координат в инпут 
+  // вызов функции установки установки координат в инпут
   setAddress(lat, lng);
 }
 // кол-бэк функция запуска карты

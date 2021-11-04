@@ -20,7 +20,7 @@ const ROOMS_TO_GUESTS_MAP = {
   '1': ['1'],
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
-  '100': ['0']
+  '100': ['0'],
 };
 
 function initForm() {
@@ -46,7 +46,7 @@ function initForm() {
   disableForm();
 }
 
-// функция установки установки координат в инпут 
+// функция установки установки координат в инпут
 function setAddress(lat, lng) {
   addressField.value = `${lat}, ${lng}`;
 }

@@ -14,7 +14,7 @@ function initMap(announcements, onLoad, onAddressSet) {
 
 // функция создания карты
 function createMap(onLoad) {
-  return L.map("map-canvas")
+  return L.map('map-canvas')
     .on('load', () => onLoad())
     .setView({
       lat: 35.68172,
@@ -22,7 +22,7 @@ function createMap(onLoad) {
     }, 14);
 }
 
-// функция создания слоя карты 
+// функция создания слоя карты
 function createTileLayer() {
   return L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
