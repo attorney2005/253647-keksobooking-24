@@ -13,12 +13,12 @@ initMap(
   onMapLoaded, 
   onAddressSet
 );
-// кол-бэк функция  
+// кол-бэк функция вызываемая когда пользователь выбирает адрес 
 function onAddressSet(lat, lng) {
   // вызов функции установки установки координат в инпут 
   setAddress(lat, lng);
 }
-// функция запуска карты
+// кол-бэк функция запуска карты
 function onMapLoaded() {
   activateForm();
 }

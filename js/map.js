@@ -1,3 +1,5 @@
+import {renderAnnouncementCard} from './template.js';
+
 // функция инициализации формы
 function initMap(announcements, onLoad, onAddressSet) {
   const map = createMap(onLoad);
@@ -5,7 +7,7 @@ function initMap(announcements, onLoad, onAddressSet) {
   const mainMarker = createMainMarker(onAddressSet);
   const publishedMarkers = createMarkers(announcements);
 
-  tileLayer.addTo(map);  
+  tileLayer.addTo(map);
   mainMarker.addTo(map);
   publishedMarkers.forEach((marker) => marker.addTo(map));
 }
@@ -17,7 +19,7 @@ function createMap(onLoad) {
     .setView({
       lat: 35.68172,
       lng: 139.75392,
-    }, 14); 
+    }, 14);
 }
 
 // функция создания слоя карты 
@@ -42,7 +44,7 @@ function createMainMarker(onAddressSet) {
     draggable: true,
     icon: icon,
   });
-// координаты главной метки по умолчанию
+  // координаты главной метки по умолчанию
   const coordinates = Object.values(marker.getLatLng());
   const lat = coordinates[0].toFixed(5);
   const lng = coordinates[1].toFixed(5);
@@ -79,11 +81,10 @@ function createMarker(announcement) {
     icon: icon,
   });
 
-  marker.bindPopup(announcement.offer.title);
+  marker.bindPopup(renderAnnouncementCard(announcement));
 
   return marker;
 }
-
 
 export {
   initMap
