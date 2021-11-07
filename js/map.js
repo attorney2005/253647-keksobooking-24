@@ -1,5 +1,11 @@
 import { renderAnnouncementCard } from './template.js';
 
+const LAT_TOKIO = 35.68172;
+const LNG_TOKIO = 139.75392;
+const MAIN_PIN_SIZE = 52;
+const USER_PIN_SIZE = 40;
+const FIXED_NUMBER = 5;
+
 // функция инициализации формы
 function initMap(announcements, onLoad, onAddressSet) {
   const map = createMap(onLoad);
@@ -17,8 +23,8 @@ function createMap(onLoad) {
   return L.map('map-canvas')
     .on('load', () => onLoad())
     .setView({
-      lat: 35.68172,
-      lng: 139.75392,
+      lat: LAT_TOKIO,
+      lng: LNG_TOKIO,
     }, 14);
 }
 
@@ -33,13 +39,13 @@ function createTileLayer() {
 function createMainMarker(onAddressSet) {
   const icon = L.icon({
     iconUrl: 'img/main-pin.svg',
-    iconSize: [52, 52],
-    iconAnchor: [26, 52],
+    iconSize: [MAIN_PIN_SIZE, MAIN_PIN_SIZE],
+    iconAnchor: [MAIN_PIN_SIZE / 2, MAIN_PIN_SIZE],
   });
 
   const marker = L.marker({
-    lat: 35.65862,
-    lng: 139.74539,
+    lat: LAT_TOKIO,
+    lng: LNG_TOKIO,
   }, {
     draggable: true,
     icon: icon,
@@ -57,11 +63,11 @@ function createMainMarker(onAddressSet) {
 
 // функции поолучения координат
 function getLng(marker) {
-  return marker.getLatLng().lng.toFixed(5);
+  return marker.getLatLng().lng.toFixed(FIXED_NUMBER);
 }
 
 function getLat(marker) {
-  return marker.getLatLng().lat.toFixed(5);
+  return marker.getLatLng().lat.toFixed(FIXED_NUMBER);
 }
 
 // функция создания списка меток
@@ -73,8 +79,8 @@ function createMarkers(announcements) {
 function createMarker(announcement) {
   const icon = L.icon({
     iconUrl: 'img/pin.svg',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
+    iconSize: [USER_PIN_SIZE, USER_PIN_SIZE],
+    iconAnchor: [USER_PIN_SIZE / 2, USER_PIN_SIZE],
   });
 
   const marker = L.marker({

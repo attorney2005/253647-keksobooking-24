@@ -1,11 +1,13 @@
 import { createListOfAnnouncements } from './data.js';
-import { initForm, activateForm, setAddress } from './form.js';
+import { initForm, activateForm, deactivateForm, setAddress } from './form.js';
 import { initMap } from './map.js';
 
 const announcements = createListOfAnnouncements();
 
 // вызов функции инициализации формы
 initForm();
+// функция деактивации формы
+deactivateForm();
 // вызов функции инициализации карты
 initMap(
   announcements,

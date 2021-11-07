@@ -8,7 +8,7 @@ const guestsSelect = document.querySelector('#capacity');
 const guestsSelectOptions = guestsSelect.querySelectorAll('option');
 const addressField = document.querySelector('#address');
 
-const TYPE_TO_MIN_PRICE_MAP = {
+const typeToMinPriceMap = {
   'bungalow': 0,
   'flat': 1000,
   'hotel': 3000,
@@ -16,7 +16,7 @@ const TYPE_TO_MIN_PRICE_MAP = {
   'palace': 10000,
 };
 
-const ROOMS_TO_GUESTS_MAP = {
+const roomsToGuestsMap = {
   '1': ['1'],
   '2': ['2', '1'],
   '3': ['3', '2', '1'],
@@ -24,9 +24,9 @@ const ROOMS_TO_GUESTS_MAP = {
 };
 
 function initForm() {
-  form.setAttribute('action', 'https://24.javascript.pages.academy/keksobooking');
-  form.setAttribute('method', 'POST');
-  form.setAttribute('enctype', 'multipart/form-data');
+  // form.setAttribute('action', 'https://24.javascript.pages.academy/keksobooking');
+  // form.setAttribute('method', 'POST');
+  // form.setAttribute('enctype', 'multipart/form-data');
 
   titleInput.setAttribute('required', true);
   titleInput.setAttribute('minlength', '30');
@@ -36,14 +36,13 @@ function initForm() {
   priceInput.setAttribute('number', true);
   priceInput.setAttribute('max', '10000');
 
-  addressField.setAttribute('readonly', true);
+  // addressField.setAttribute('readonly', true);
 
   typeSelect.addEventListener('change', setMinPrice);
   roomsSelect.addEventListener('change', setGuestsOptions);
 
   setMinPrice();
   setGuestsOptions();
-  disableForm();
 }
 
 // функция установки установки координат в инпут
@@ -53,21 +52,17 @@ function setAddress(lat, lng) {
 
 function setMinPrice() {
   const type = typeSelect.value;
-  const price = TYPE_TO_MIN_PRICE_MAP[type];
+  const price = typeToMinPriceMap[type];
   priceInput.setAttribute('min', price);
   priceInput.setAttribute('placeholder', price);
 }
 
 function setGuestsOptions() {
   const selectedRoomsOption = roomsSelect.value;
-  const availableGuestOptions = ROOMS_TO_GUESTS_MAP[selectedRoomsOption];
+  const availableGuestOptions = roomsToGuestsMap[selectedRoomsOption];
 
   guestsSelectOptions.forEach((option) => {
-    if (availableGuestOptions.includes(option.value)) {
-      option.disabled = false;
-    } else {
-      option.disabled = true;
-    }
+    option.disabled = !availableGuestOptions.includes(option.value);
   });
 }
 
@@ -84,13 +79,13 @@ function activateForm() {
   activateFieldsets();
 }
 
-function disableForm() {
+function deactivateForm() {
   form.classList.add('ad-form--disabled');
   disableFieldsets();
 }
 
 export {
-  disableForm,
+  deactivateForm,
   activateForm,
   initForm,
   setAddress
