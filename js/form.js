@@ -1,3 +1,6 @@
+import {sendData} from './api.js';
+// import {createPopupMessage, success, error} from './popups.js';
+
 const form = document.querySelector('.ad-form');
 const fieldsets = form.querySelectorAll('fieldset');
 const titleInput = document.querySelector('#title');
@@ -7,6 +10,10 @@ const roomsSelect = document.querySelector('#room_number');
 const guestsSelect = document.querySelector('#capacity');
 const guestsSelectOptions = guestsSelect.querySelectorAll('option');
 const addressField = document.querySelector('#address');
+const timeIn = document.querySelector('#timein');
+const timeOut = document.querySelector('#timeout');
+
+const urlSendData = 'https://24.javascript.pages.academy/keksobooking/data';
 
 const typeToMinPriceMap = {
   'bungalow': 0,
@@ -66,6 +73,14 @@ function setGuestsOptions() {
   });
 }
 
+timeIn.addEventListener('change', () => {
+  timeOut.value = timeIn.value;
+});
+
+timeOut.addEventListener('change', () => {
+  timeIn.value = timeOut.value;
+});
+
 function disableFieldsets() {
   fieldsets.forEach((fieldset) => fieldset.disabled = true);
 }
@@ -84,9 +99,24 @@ function deactivateForm() {
   disableFieldsets();
 }
 
+// функция отправления  формы пользователя на сервер
+const setUserFormSubmit = () => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    sendData(
+      urlSendData,
+      () => {createPopupMessage(success), clearForm();},
+      () => createPopupMessage(error),
+      new FormData(evt.target),
+    );
+  });
+};
+
+
 export {
   deactivateForm,
   activateForm,
   initForm,
-  setAddress
+  setAddress,
+  setUserFormSubmit
 };
