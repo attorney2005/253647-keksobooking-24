@@ -1,5 +1,6 @@
 import {sendData} from './api.js';
-// import {createPopupMessage, success, error} from './popups.js';
+import {createPopupMessage, success, error} from './popups.js';
+import {resetMapAndMarker} from './map.js';
 
 const form = document.querySelector('.ad-form');
 const fieldsets = form.querySelectorAll('fieldset');
@@ -12,6 +13,7 @@ const guestsSelectOptions = guestsSelect.querySelectorAll('option');
 const addressField = document.querySelector('#address');
 const timeIn = document.querySelector('#timein');
 const timeOut = document.querySelector('#timeout');
+const resetButton = form.querySelector('.ad-form__reset');
 
 const urlSendData = 'https://24.javascript.pages.academy/keksobooking/data';
 
@@ -99,6 +101,12 @@ function deactivateForm() {
   disableFieldsets();
 }
 
+// функция очистки формы
+ function clearForm() {
+   form.reset;
+   resetMapAndMarker();
+ }
+
 // функция отправления  формы пользователя на сервер
 const setUserFormSubmit = () => {
   form.addEventListener('submit', (evt) => {
@@ -112,6 +120,15 @@ const setUserFormSubmit = () => {
   });
 };
 
+// setUserFormSubmit();
+
+const onResetClick = () => {
+  resetButton.addEventListener('click', () => {
+    clearForm();
+  });
+};
+
+onResetClick();
 
 export {
   deactivateForm,

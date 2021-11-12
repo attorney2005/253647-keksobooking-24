@@ -1,3 +1,4 @@
+import { createDownLoadMessage } from './popups.js';
 
 const urlSendData = 'https://24.javascript.pages.academy/keksobooking/data';
 
@@ -7,7 +8,8 @@ const getData = (onSuccess) => fetch(urlSendData)
     onSuccess(data);
   })
   .catch(() => {
-    console.log('ошибка');
+    // console.log('ошибка');
+    createDownLoadMessage();
   });
 
 const sendData = (url, onSuccess, onFail, body) => {

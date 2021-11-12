@@ -10,65 +10,57 @@ const USER_PIN_SIZE = 40;
 const FIXED_NUMBER = 5;
 
 let announcements = [];
+let markerGroup;
 
 // кол-бэк функция запуска карты
 function onMapLoaded() {
   // активация формы
   activateForm();
   // получение запроса с сервера
-  getData((data) => {
-    announcements = data.slice();
-    // создание отдельного слоя на карте через группу layers
-    const markerGroup = L.layerGroup().addTo(map);
-
-    const renderMarkers = (announcements) => {
-      markerGroup.clearLayers();
-      announcements.forEach((announcement) => {
-        const { lat, lng } = announcement.location;
-        const icon = L.icon({
-          iconUrl: 'img/pin.svg',
-          iconSize: [USER_PIN_SIZE, USER_PIN_SIZE],
-          iconAnchor: [USER_PIN_SIZE / 2, USER_PIN_SIZE],
-        });
-
-        const marker = L.marker(
-          {
-            lat,
-            lng,
-          },
-          {
-            icon: icon,
-          },
-        );
-        marker
-          .addTo(markerGroup)
-          .bindPopup(renderAnnouncementCard(announcements));
-      });
-    };
-  });
+  getData(renderMarkers);
 }
 
 // функция инициализации формы
 function initMap(onAddressSet) {
-  const map = createMap();
+  const map = L.map('map-canvas');
   const tileLayer = createTileLayer();
   const mainMarker = createMainMarker(onAddressSet);
-  const publishedMarkers = createMarkers(announcements);
 
+  markerGroup = L.layerGroup().addTo(map);
   tileLayer.addTo(map);
   mainMarker.addTo(map);
-  publishedMarkers.forEach((marker) => marker.addTo(map));
-}
-
-// функция создания карты
-function createMap() {
-  return L.map('map-canvas')
-    .on('load', () => onMapLoaded())
+  map.on('load', onMapLoaded)
     .setView({
       lat: LAT_TOKIO,
       lng: LNG_TOKIO,
     }, 14);
 }
+
+function renderMarkers(data) {
+  announcements = data.slice();
+  markerGroup.clearLayers();
+  announcements.forEach((announcement) => {
+    const { lat, lng } = announcement.location;
+    const icon = L.icon({
+      iconUrl: 'img/pin.svg',
+      iconSize: [USER_PIN_SIZE, USER_PIN_SIZE],
+      iconAnchor: [USER_PIN_SIZE / 2, USER_PIN_SIZE],
+    });
+
+    const marker = L.marker(
+      {
+        lat,
+        lng,
+      },
+      {
+        icon: icon,
+      },
+    );
+    marker
+      .addTo(markerGroup)
+      .bindPopup(renderAnnouncementCard(announcement));
+  });
+};
 
 // функция создания слоя карты
 function createTileLayer() {
@@ -112,31 +104,20 @@ function getLat(marker) {
   return marker.getLatLng().lat.toFixed(FIXED_NUMBER);
 }
 
-// функция создания списка меток
-function createMarkers(announcements) {
-  return announcements.map((announcement) => createMarker(announcement));
-}
+function resetMapAndMarker() {
+  mainMarker.setLating({
+    lat: LAT_TOKIO,
+    lng: LNG_TOKIO,
+  })
+  map.setView({
+    lat: LAT_TOKIO,
+    lng: LNG_TOKIO,
+  }, 14);
 
-// функция создания одной метки
-function createMarker(announcement) {
-  const icon = L.icon({
-    iconUrl: 'img/pin.svg',
-    iconSize: [USER_PIN_SIZE, USER_PIN_SIZE],
-    iconAnchor: [USER_PIN_SIZE / 2, USER_PIN_SIZE],
-  });
-
-  const marker = L.marker({
-    lat: announcement.location.lat,
-    lng: announcement.location.lng,
-  }, {
-    icon: icon,
-  });
-
-  marker.bindPopup(renderAnnouncementCard(announcement));
-
-  return marker;
+  map.closePopup();
 }
 
 export {
-  initMap
+  initMap,
+  resetMapAndMarker
 };

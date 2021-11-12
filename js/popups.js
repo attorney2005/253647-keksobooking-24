@@ -7,7 +7,6 @@ const success = messageSuccesTemplate.cloneNode(true);
 const error = messageErrorTemplate.cloneNode(true);
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
-// const isEnterKey = (evt) => evt.key === 'Enter';
 
 const createPopupMessage = (messageType) => {
   body.appendChild(messageType);
@@ -31,9 +30,9 @@ const createDownLoadMessage  = () => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
   alertContainer.style.position = 'absolute';
-  alertContainer.style.left = 0;
+  alertContainer.style.left = '115px';
   alertContainer.style.top = '20px';
-  alertContainer.style.right = 0;
+  alertContainer.style.right = '115px';
   alertContainer.style.padding = '10px 3px';
   alertContainer.style.fontSize = '28px';
   alertContainer.style.textAlign = 'center';
