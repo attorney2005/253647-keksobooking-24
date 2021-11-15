@@ -1,29 +1,69 @@
-import { createDownLoadMessage } from './popups.js';
+function createApi() {
+  const getUrl = 'https://24.javascript.pages.academy/keksobooking/data';
+  const sendUrl = 'https://24.javascript.pages.academy/keksobooking';
+  let dataReceivedListener = () => null;
+  let dataSentListener = () => null;
+  let networkErrorListener = () => null;
+  let requestErrorListener = () => null;
 
-const urlSendData = 'https://24.javascript.pages.academy/keksobooking/data';
+  // Private methods
+  function onDataReceived(res) {
+    if (res.ok) {
+      res.json().then((data) => dataReceivedListener(data));
+    } else {
+      requestErrorListener(res.status);
+    }
+  }
 
-const getData = (onSuccess) => fetch(urlSendData)
-  .then((response) => response.json())
-  .then((data) => {
-    onSuccess(data);
-  })
-  .catch(() => {
-    // console.log('ошибка');
-    createDownLoadMessage();
-  });
+  function onDataSent(res) {
+    if (res.ok) {
+      dataSentListener();
+    } else {
+      requestErrorListener(res.status);
+    }
+  }
 
-const sendData = (url, onSuccess, onFail, body) => {
-  fetch(
-    url,
-    {
+  function onNetworkError(err) {
+    networkErrorListener(err);
+  }
+
+  // Public methods
+  function getData() {
+    fetch(getUrl)
+      .then((response) => onDataReceived(response))
+      .catch((err) => onNetworkError(err));
+  }
+
+  function sendData(data) {
+    fetch(sendUrl, {
       method: 'POST',
-      body,
-    },
-  ).then((response) => response.ok ? onSuccess() : onFail(),
-  )
-    .catch(() => {
-      onFail();
-    });
-};
+      body: data,
+    })
+      .then((response) => onDataSent(response))
+      .catch((err) => onNetworkError(err));
+  }
 
-export {getData, sendData};
+  function setDataReceivedListener(callback) {
+    dataReceivedListener = callback;
+  }
+  function setDataSentListener(callback) {
+    dataSentListener = callback;
+  }
+  function setNetworkErrorListener(callback) {
+    networkErrorListener = callback;
+  }
+  function setRequestErrorListener(callback) {
+    requestErrorListener = callback;
+  }
+
+  return {
+    getData: getData,
+    sendData: sendData,
+    setDataReceivedListener: setDataReceivedListener,
+    setDataSentListener: setDataSentListener,
+    setNetworkErrorListener: setNetworkErrorListener,
+    setRequestErrorListener: setRequestErrorListener,
+  };
+}
+
+export { createApi };

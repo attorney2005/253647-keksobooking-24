@@ -1,22 +1,5 @@
-import {sendData} from './api.js';
-import {createPopupMessage, success, error} from './popups.js';
-import {resetMapAndMarker} from './map.js';
-
-const form = document.querySelector('.ad-form');
-const fieldsets = form.querySelectorAll('fieldset');
-const titleInput = document.querySelector('#title');
-const priceInput = document.querySelector('#price');
-const typeSelect = document.querySelector('#type');
-const roomsSelect = document.querySelector('#room_number');
-const guestsSelect = document.querySelector('#capacity');
-const guestsSelectOptions = guestsSelect.querySelectorAll('option');
-const addressField = document.querySelector('#address');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
-const resetButton = form.querySelector('.ad-form__reset');
-
-const urlSendData = 'https://24.javascript.pages.academy/keksobooking/data';
-
+const LAT_TOKIO = 35.68172;
+const LNG_TOKIO = 139.75392;
 const typeToMinPriceMap = {
   'bungalow': 0,
   'flat': 1000,
@@ -32,10 +15,21 @@ const roomsToGuestsMap = {
   '100': ['0'],
 };
 
-function initForm() {
-  // form.setAttribute('action', 'https://24.javascript.pages.academy/keksobooking');
-  // form.setAttribute('method', 'POST');
-  // form.setAttribute('enctype', 'multipart/form-data');
+function createForm() {
+  const form = document.querySelector('.ad-form');
+  const fieldsets = form.querySelectorAll('fieldset');
+  const titleInput = document.querySelector('#title');
+  const priceInput = document.querySelector('#price');
+  const typeSelect = document.querySelector('#type');
+  const roomsSelect = document.querySelector('#room_number');
+  const guestsSelect = document.querySelector('#capacity');
+  const guestsSelectOptions = guestsSelect.querySelectorAll('option');
+  const addressField = document.querySelector('#address');
+  const timeIn = document.querySelector('#timein');
+  const timeOut = document.querySelector('#timeout');
+  const resetButton = form.querySelector('.ad-form__reset');
+  let formResetListener = () => null;
+  let formSubmitListener = () => null;
 
   titleInput.setAttribute('required', true);
   titleInput.setAttribute('minlength', '30');
@@ -45,95 +39,104 @@ function initForm() {
   priceInput.setAttribute('number', true);
   priceInput.setAttribute('max', '10000');
 
-  // addressField.setAttribute('readonly', true);
-
   typeSelect.addEventListener('change', setMinPrice);
   roomsSelect.addEventListener('change', setGuestsOptions);
+  resetButton.addEventListener('click', onFormReset);
+  form.addEventListener('submit', onFormSubmit);
+  timeIn.addEventListener('change', onTimeInChange);
+  timeOut.addEventListener('change', onTimeOutChange);
 
   setMinPrice();
   setGuestsOptions();
-}
+  setAddress(LAT_TOKIO, LNG_TOKIO);
 
-// функция установки установки координат в инпут
-function setAddress(lat, lng) {
-  addressField.value = `${lat}, ${lng}`;
-}
+  // Test data
+  // ======================
+  titleInput.value = 'Заполните все обязательные поля, назначьте цену';
+  priceInput.value = 4000;
+  roomsSelect.value = '2';
+  guestsSelect.value = '1';
+  // ======================
 
-function setMinPrice() {
-  const type = typeSelect.value;
-  const price = typeToMinPriceMap[type];
-  priceInput.setAttribute('min', price);
-  priceInput.setAttribute('placeholder', price);
-}
 
-function setGuestsOptions() {
-  const selectedRoomsOption = roomsSelect.value;
-  const availableGuestOptions = roomsToGuestsMap[selectedRoomsOption];
+  // Private methods
+  function onFormReset() {
+    clear();
+    formResetListener();
+  }
 
-  guestsSelectOptions.forEach((option) => {
-    option.disabled = !availableGuestOptions.includes(option.value);
-  });
-}
-
-timeIn.addEventListener('change', () => {
-  timeOut.value = timeIn.value;
-});
-
-timeOut.addEventListener('change', () => {
-  timeIn.value = timeOut.value;
-});
-
-function disableFieldsets() {
-  fieldsets.forEach((fieldset) => fieldset.disabled = true);
-}
-
-function activateFieldsets() {
-  fieldsets.forEach((fieldset) => fieldset.disabled = false);
-}
-
-function activateForm() {
-  form.classList.remove('ad-form--disabled');
-  activateFieldsets();
-}
-
-function deactivateForm() {
-  form.classList.add('ad-form--disabled');
-  disableFieldsets();
-}
-
-// функция очистки формы
- function clearForm() {
-   form.reset;
-   resetMapAndMarker();
- }
-
-// функция отправления  формы пользователя на сервер
-const setUserFormSubmit = () => {
-  form.addEventListener('submit', (evt) => {
+  function onFormSubmit(evt) {
     evt.preventDefault();
-    sendData(
-      urlSendData,
-      () => {createPopupMessage(success), clearForm();},
-      () => createPopupMessage(error),
-      new FormData(evt.target),
-    );
-  });
-};
+    formSubmitListener(new FormData(evt.target));
+  }
 
-// setUserFormSubmit();
+  function onTimeInChange() {
+    timeOut.value = timeIn.value;
+  }
 
-const onResetClick = () => {
-  resetButton.addEventListener('click', () => {
-    clearForm();
-  });
-};
+  function onTimeOutChange() {
+    timeIn.value = timeOut.value;
+  }
 
-onResetClick();
+  function setMinPrice() {
+    const type = typeSelect.value;
+    const price = typeToMinPriceMap[type];
+    priceInput.setAttribute('min', price);
+    priceInput.setAttribute('placeholder', price);
+  }
 
-export {
-  deactivateForm,
-  activateForm,
-  initForm,
-  setAddress,
-  setUserFormSubmit
-};
+  function setGuestsOptions() {
+    const selectedRoomsOption = roomsSelect.value;
+    const availableGuestOptions = roomsToGuestsMap[selectedRoomsOption];
+
+    guestsSelectOptions.forEach((option) => {
+      option.disabled = !availableGuestOptions.includes(option.value);
+    });
+  }
+
+  function disableFieldsets() {
+    fieldsets.forEach((fieldset) => fieldset.disabled = true);
+  }
+
+  function activateFieldsets() {
+    fieldsets.forEach((fieldset) => fieldset.disabled = false);
+  }
+
+  // Public methods
+  function activate() {
+    form.classList.remove('ad-form--disabled');
+    activateFieldsets();
+  }
+
+  function deactivate() {
+    form.classList.add('ad-form--disabled');
+    disableFieldsets();
+  }
+
+  function setAddress(lat, lng) {
+    addressField.value = `${lat}, ${lng}`;
+  }
+
+  function clear() {
+    form.reset();
+  }
+
+  function addSubmitListener(callback) {
+    formSubmitListener = callback;
+  }
+
+  function addResetListener(callback) {
+    formResetListener = callback;
+  }
+
+  return {
+    activate: activate,
+    deactivate: deactivate,
+    setAddress: setAddress,
+    clear: clear,
+    addSubmitListener: addSubmitListener,
+    addResetListener: addResetListener,
+  };
+}
+
+export { createForm };
