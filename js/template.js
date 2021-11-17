@@ -81,9 +81,9 @@ function renderAnnouncementCard(announcementData) {
   card.querySelector('.popup__text--time').textContent = getCheckTime(offer.checkin, offer.checkout);
   card.querySelector('.popup__description').textContent = offer.description;
   card.querySelector('.popup__features').innerHTML = '';
-  card.querySelector('.popup__features').appendChild(renderFeatures(offer.features));
+  card.querySelector('.popup__features').appendChild(renderFeatures(offer.features || []));
   card.querySelector('.popup__photos').innerHTML = '';
-  card.querySelector('.popup__photos').appendChild(renderPhotos(offer.photos));
+  card.querySelector('.popup__photos').appendChild(renderPhotos(offer.photos || []));
   card.querySelector('.popup__avatar').src = announcementData.author.avatar;
 
   return card;
