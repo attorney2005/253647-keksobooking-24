@@ -1,5 +1,3 @@
-const LAT_TOKIO = 35.68172;
-const LNG_TOKIO = 139.75392;
 const typeToMinPriceMap = {
   'bungalow': 0,
   'flat': 1000,
@@ -15,10 +13,16 @@ const roomsToGuestsMap = {
   '100': ['0'],
 };
 
-function createForm() {
+const defaultGuestForRoomMap = {
+  '1': '1',
+  '2': '1',
+  '3': '1',
+  '100': '0',
+};
+
+function createForm(defaultLocation) {
   const form = document.querySelector('.ad-form');
   const fieldsets = form.querySelectorAll('fieldset');
-  const titleInput = document.querySelector('#title');
   const priceInput = document.querySelector('#price');
   const typeSelect = document.querySelector('#type');
   const roomsSelect = document.querySelector('#room_number');
@@ -31,16 +35,8 @@ function createForm() {
   let formResetListener = () => null;
   let formSubmitListener = () => null;
 
-  titleInput.setAttribute('required', true);
-  titleInput.setAttribute('minlength', '30');
-  titleInput.setAttribute('maxlength', '100');
-
-  priceInput.setAttribute('required', true);
-  priceInput.setAttribute('number', true);
-  priceInput.setAttribute('max', '10000');
-
-  typeSelect.addEventListener('change', setMinPrice);
-  roomsSelect.addEventListener('change', setGuestsOptions);
+  typeSelect.addEventListener('change', onTypeChange);
+  roomsSelect.addEventListener('change', onRoomsChange);
   resetButton.addEventListener('click', onFormReset);
   form.addEventListener('submit', onFormSubmit);
   timeIn.addEventListener('change', onTimeInChange);
@@ -48,19 +44,18 @@ function createForm() {
 
   setMinPrice();
   setGuestsOptions();
-  setAddress(LAT_TOKIO, LNG_TOKIO);
+  setAddress(defaultLocation.lat, defaultLocation.lng);
 
-  // Test data
-  // ======================
-  titleInput.value = 'Заполните все обязательные поля, назначьте цену';
-  priceInput.value = 4000;
-  roomsSelect.value = '2';
-  guestsSelect.value = '1';
-  // ======================
+  function onTypeChange() {
+    setMinPrice();
+  }
 
+  function onRoomsChange() {
+    setGuestsOptions();
+  }
 
-  // Private methods
-  function onFormReset() {
+  function onFormReset(evt) {
+    evt.preventDefault();
     clear();
     formResetListener();
   }
@@ -88,9 +83,11 @@ function createForm() {
   function setGuestsOptions() {
     const selectedRoomsOption = roomsSelect.value;
     const availableGuestOptions = roomsToGuestsMap[selectedRoomsOption];
+    const defaultGuestsOption = defaultGuestForRoomMap[selectedRoomsOption];
 
     guestsSelectOptions.forEach((option) => {
       option.disabled = !availableGuestOptions.includes(option.value);
+      option.selected = option.value === defaultGuestsOption;
     });
   }
 
@@ -102,7 +99,6 @@ function createForm() {
     fieldsets.forEach((fieldset) => fieldset.disabled = false);
   }
 
-  // Public methods
   function activate() {
     form.classList.remove('ad-form--disabled');
     activateFieldsets();
@@ -119,6 +115,8 @@ function createForm() {
 
   function clear() {
     form.reset();
+    setGuestsOptions();
+    setAddress(defaultLocation.lat, defaultLocation.lng);
   }
 
   function addSubmitListener(callback) {

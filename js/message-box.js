@@ -1,70 +1,91 @@
 
 function createMessageBox() {
-  const successMessageTemplate = document.querySelector('#success').content;
-  const errorMessageTemplate = document.querySelector('#error').content;
-  const successMessageFragment = successMessageTemplate.querySelector('.success');
-  const errorMessageFragment = errorMessageTemplate.querySelector('.error');
-  const successMessage = successMessageFragment.cloneNode(true);
-  const errorMessage = errorMessageFragment.cloneNode(true);
+  const formSuccessMessageTemplate = document.querySelector('#success').content;
+  const formFailureMessageTemplate = document.querySelector('#error').content;
+  const formSuccessMessageFragment = formSuccessMessageTemplate.querySelector('.success');
+  const formFailureMessageFragment = formFailureMessageTemplate.querySelector('.error');
+  const formSuccessMessage = formSuccessMessageFragment.cloneNode(true);
+  const formFailureMessage = formFailureMessageFragment.cloneNode(true);
+  const loadFailureMessage = createLoadFailureMessage();
 
-  document.body.appendChild(successMessage);
-  document.body.appendChild(errorMessage);
-  document.addEventListener('keydown', onEscapeClick);
-  successMessage.addEventListener('click', hideMessages);
-  errorMessage.addEventListener('click', hideMessages);
+  document.body.appendChild(formSuccessMessage);
+  document.body.appendChild(formFailureMessage);
+  document.body.appendChild(loadFailureMessage);
+  formSuccessMessage.addEventListener('click', onMessageClick);
+  formFailureMessage.addEventListener('click', onMessageClick);
 
   hideMessages();
 
-  // Private methods
+  function subscribeOnEscapeClick() {
+    document.addEventListener('keydown', onEscapeClick);
+  }
+
+  function unsubscribeOnEscapeClick() {
+    document.removeEventListener('keydown', onEscapeClick);
+  }
+
   function onEscapeClick(evt) {
     if (evt.key === 'Escape') {
       hideMessages();
     }
   }
 
-  // Public methods
-  function showSuccessMessage() {
-    successMessage.classList.remove('visually-hidden');
+  function onMessageClick() {
+    hideMessages();
   }
 
-  function showErrorMessage() {
-    errorMessage.classList.remove('visually-hidden');
+  function createLoadFailureMessage() {
+    const alertContainer = document.createElement('div');
+    alertContainer.style.zIndex = 100;
+    alertContainer.style.position = 'absolute';
+    alertContainer.style.left = '115px';
+    alertContainer.style.top = '20px';
+    alertContainer.style.right = '115px';
+    alertContainer.style.padding = '10px 3px';
+    alertContainer.style.fontSize = '28px';
+    alertContainer.style.textAlign = 'center';
+    alertContainer.style.backgroundColor = 'red';
+    alertContainer.style.fontFamily = 'Roboto', 'Arial', 'sans-serif';
+    alertContainer.style.cursor = 'pointer';
+
+    alertContainer.textContent = 'Не удалось загрузить данные. Попробуйте перезагрузить страницу';
+
+    alertContainer.addEventListener('click', () => {
+      location.reload();
+      return false;
+    }, { once: true });
+
+    return alertContainer;
+  }
+
+  function showFormSuccessMessage() {
+    formSuccessMessage.classList.remove('visually-hidden');
+    subscribeOnEscapeClick();
+  }
+
+  function showFormFailureMessage() {
+    formFailureMessage.classList.remove('visually-hidden');
+    subscribeOnEscapeClick();
+  }
+
+  function showLoadFailureMessage() {
+    loadFailureMessage.classList.remove('visually-hidden');
+    subscribeOnEscapeClick();
   }
 
   function hideMessages() {
-    successMessage.classList.add('visually-hidden');
-    errorMessage.classList.add('visually-hidden');
+    formSuccessMessage.classList.add('visually-hidden');
+    formFailureMessage.classList.add('visually-hidden');
+    loadFailureMessage.classList.add('visually-hidden');
+    unsubscribeOnEscapeClick();
   }
 
   return {
-    showSuccessMessage: showSuccessMessage,
-    showErrorMessage: showErrorMessage,
+    showFormSuccessMessage: showFormSuccessMessage,
+    showFormFailureMessage: showFormFailureMessage,
+    showLoadFailureMessage: showLoadFailureMessage,
     hideMessages: hideMessages,
   };
 }
-
-
-// function createErrorMessage() {
-//   const alertContainer = document.createElement('div');
-//   alertContainer.style.zIndex = 100;
-//   alertContainer.style.position = 'absolute';
-//   alertContainer.style.left = '115px';
-//   alertContainer.style.top = '20px';
-//   alertContainer.style.right = '115px';
-//   alertContainer.style.padding = '10px 3px';
-//   alertContainer.style.fontSize = '28px';
-//   alertContainer.style.textAlign = 'center';
-//   alertContainer.style.backgroundColor = 'red';
-//   alertContainer.style.fontFamily = 'Roboto', 'Arial', 'sans-serif';
-
-//   alertContainer.textContent = 'Не удалось загрузить данные. Попробуйте перезагрузить страницу';
-
-//   document.body.append(alertContainer);
-
-//   // alertContainer.addEventListener('click', () => {
-//   //   location.reload();
-//   //   return false;
-//   // }, { once: true });
-// };
 
 export { createMessageBox };

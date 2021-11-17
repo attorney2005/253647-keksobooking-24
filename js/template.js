@@ -1,18 +1,21 @@
+const MAX_ROOMS_NUMBER = 5;
+
+const typesToTextDictionary = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalow': 'Бунгало',
+  'hotel': 'Отель',
+};
+
 function getTypeText(type) {
-  const TYPES_TO_TEXT_DICTIONARY = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalow': 'Бунгало',
-    'hotel': 'Отель',
-  };
-  return TYPES_TO_TEXT_DICTIONARY[type];
+  return typesToTextDictionary[type];
 }
 
 function getRoomWord(numberOfRooms) {
   if (numberOfRooms === 1) {
     return 'комната';
-  } else if (numberOfRooms > 1 && numberOfRooms < 5) {
+  } else if (numberOfRooms > 1 && numberOfRooms < MAX_ROOMS_NUMBER) {
     return 'комнаты';
   } else {
     return 'комнат';

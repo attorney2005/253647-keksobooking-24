@@ -3,15 +3,14 @@ function createApi() {
   const sendUrl = 'https://24.javascript.pages.academy/keksobooking';
   let dataReceivedListener = () => null;
   let dataSentListener = () => null;
-  let networkErrorListener = () => null;
-  let requestErrorListener = () => null;
+  let dataSendingErrorListener = () => null;
+  let dataReceivingErrorListener = () => null;
 
-  // Private methods
   function onDataReceived(res) {
     if (res.ok) {
       res.json().then((data) => dataReceivedListener(data));
     } else {
-      requestErrorListener(res.status);
+      dataReceivingErrorListener();
     }
   }
 
@@ -19,19 +18,14 @@ function createApi() {
     if (res.ok) {
       dataSentListener();
     } else {
-      requestErrorListener(res.status);
+      dataSendingErrorListener();
     }
   }
 
-  function onNetworkError(err) {
-    networkErrorListener(err);
-  }
-
-  // Public methods
   function getData() {
     fetch(getUrl)
       .then((response) => onDataReceived(response))
-      .catch((err) => onNetworkError(err));
+      .catch(() => dataReceivingErrorListener());
   }
 
   function sendData(data) {
@@ -40,7 +34,7 @@ function createApi() {
       body: data,
     })
       .then((response) => onDataSent(response))
-      .catch((err) => onNetworkError(err));
+      .catch(() => dataSendingErrorListener());
   }
 
   function setDataReceivedListener(callback) {
@@ -49,11 +43,11 @@ function createApi() {
   function setDataSentListener(callback) {
     dataSentListener = callback;
   }
-  function setNetworkErrorListener(callback) {
-    networkErrorListener = callback;
+  function setDataSendingErrorListener(callback) {
+    dataSendingErrorListener = callback;
   }
-  function setRequestErrorListener(callback) {
-    requestErrorListener = callback;
+  function setDataReceivingErrorListener(callback) {
+    dataReceivingErrorListener = callback;
   }
 
   return {
@@ -61,8 +55,8 @@ function createApi() {
     sendData: sendData,
     setDataReceivedListener: setDataReceivedListener,
     setDataSentListener: setDataSentListener,
-    setNetworkErrorListener: setNetworkErrorListener,
-    setRequestErrorListener: setRequestErrorListener,
+    setDataSendingErrorListener: setDataSendingErrorListener,
+    setDataReceivingErrorListener: setDataReceivingErrorListener,
   };
 }
 

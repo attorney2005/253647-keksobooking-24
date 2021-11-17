@@ -1,4 +1,5 @@
-function createFilters() {
+function createFilterForm() {
+  const form = document.querySelector('.map__filters');
   const typeSelect = document.querySelector('#housing-type');
   const priceSelect = document.querySelector('#housing-price');
   const roomsSelect = document.querySelector('#housing-rooms');
@@ -12,7 +13,7 @@ function createFilters() {
     guests: 'any',
     features: [],
   };
-  let onChangeListener = () => null;
+  let changeListener = () => null;
 
   typeSelect.addEventListener('change', onTypeChange);
   priceSelect.addEventListener('change', onPriceChange);
@@ -20,42 +21,51 @@ function createFilters() {
   guestsSelect.addEventListener('change', onGuestsChange);
   featuresSelect.addEventListener('change', onFeaturesChange);
 
-  // Private methods
   function onTypeChange() {
     filters.type = typeSelect.value;
-    onChangeListener();
+    changeListener();
   }
   function onPriceChange() {
     filters.price = priceSelect.value;
-    onChangeListener();
+    changeListener();
   }
   function onRoomsChange() {
     filters.rooms = roomsSelect.value;
-    onChangeListener();
+    changeListener();
   }
   function onGuestsChange() {
     filters.guests = guestsSelect.value;
-    onChangeListener();
+    changeListener();
   }
   function onFeaturesChange() {
     filters.features = featuresCheckboxes
       .filter((checkbox) => checkbox.checked === true)
       .map((checkbox) => checkbox.value);
-    onChangeListener();
+    changeListener();
   }
 
-  // Public methods
-  function setChangeListener(callback) {
-    onChangeListener = callback;
+  function activate() {
+    form.classList.remove('map__filters--disabled');
   }
+
+  function deactivate() {
+    form.classList.add('map__filters--disabled');
+  }
+
+  function setChangeListener(callback) {
+    changeListener = callback;
+  }
+
   function getFilters() {
     return filters;
   }
 
   return {
+    activate: activate,
+    deactivate: deactivate,
     setChangeListener: setChangeListener,
     getFilters: getFilters,
   };
 }
 
-export { createFilters };
+export { createFilterForm };

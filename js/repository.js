@@ -1,28 +1,36 @@
+const DEFAULT_VALUE = 'any';
+const PRICE_LOW = 'low';
+const PRICE_LOW_LIMIT = 10000;
+const PRICE_MIDDLE = 'middle';
+const PRICE_HIGH = 'high';
+const PRICE_HIGH_LIMIT = 50000;
+const ANNOUNCEMENTS_NUMBER = 10;
 
 function createRepository() {
   let data = [];
   let filters = {};
   let changeListener = () => null;
 
-  // Private methods
   function checkType(anouncement) {
-    return anouncement.offer.type === filters.type || filters.type === 'any';
+    return anouncement.offer.type === filters.type || filters.type === DEFAULT_VALUE;
   }
 
   function checkPrice(anouncement) {
     const price = anouncement.offer.price;
     const priceRange = estimatePriceRange(price);
-    return priceRange === filters.price || filters.price === 'any';
+    return priceRange === filters.price || filters.price === DEFAULT_VALUE;
   }
 
   function checkRooms(anouncement) {
-    return anouncement.offer.rooms === filters.rooms || filters.rooms === 'any';
+    const desiredRooms = filters.rooms;
+    const presentRooms = String(anouncement.offer.rooms);
+    return presentRooms === desiredRooms || desiredRooms === DEFAULT_VALUE;
   }
 
   function checkGuests(anouncement) {
     const desiredGuests = filters.guests;
     const presentCapacity = anouncement.offer.guests;
-    if (desiredGuests === 'any') {
+    if (desiredGuests === DEFAULT_VALUE) {
       return true;
     }
     return presentCapacity > Number(desiredGuests);
@@ -40,12 +48,11 @@ function createRepository() {
   }
 
   function estimatePriceRange(price) {
-    if (price < 10000) {return 'low';}
-    if (price < 50000) {return 'middle';}
-    return 'high';
+    if (price < PRICE_LOW_LIMIT) {return PRICE_LOW;}
+    if (price < PRICE_HIGH_LIMIT) {return PRICE_MIDDLE;}
+    return PRICE_HIGH;
   }
 
-  // Public methods
   function putData(newData) {
     data = newData;
     changeListener();
@@ -63,7 +70,7 @@ function createRepository() {
       .filter(checkRooms)
       .filter(checkGuests)
       .filter(checkFeatures)
-      .slice(0, 100);
+      .slice(0, ANNOUNCEMENTS_NUMBER);
   }
 
   function setChangeListener(callback) {
@@ -79,52 +86,3 @@ function createRepository() {
 }
 
 export { createRepository };
-
-
-// const filterType = (announcement) => {
-//     const typeValue = mapFilters.querySelector('#housing-type').value;
-//     return typeValue === announcement.offer.type || typeValue === 'any';
-// };
-
-// const filterPrice = (announcement) => {
-//     const priceValue = mapFilters.querySelector('#housing-price').value;
-//     switch (priceValue) {
-//         case 'low': return announcement.offer.price < 10000;
-//         case 'middle': return announcement.offer.price >= 10000 && announcement.offer.price < 50000;
-//         case 'high': return announcement.offer.price >= 50000;
-//         case 'any': return true;
-//         default: return false;
-//     }
-// };
-
-// const filterRooms = (announcement) => {
-//     const roomsValue = mapFilters.querySelector('#housing-rooms');
-//     return roomsValue === announcement.offer.rooms.toString() || roomsValue === 'any';
-// };
-
-// const filterGuests = (announcement) => {
-//     const guestsValue = mapFilters.querySelector('#housing-guests');
-//     return guestsValue === announcement.offer.guests.toString() || guestsValue === 'any';
-// };
-
-// const filterFeatures = (announcement) => {
-//     const selectedFeatures = Array.from(filterForm.querySelectorAll('#housing-features input:checked'));
-//     if (!announcement.offer.features) {
-//       return false;
-//     }
-//     const featuresValues = selectedFeatures.map((element) => element.value);
-//     const filter = featuresValues.filter((item) => announcement.offer.features.includes(item));
-//     return featuresValues.length === filter.length;
-//   };
-
-// //   функция c фильтрами которую будем передавать в сортировку
-
-// const getAllFilterInput = (announcement) => {
-//     const inputFiltres = [
-//       filterType,
-//       filterPrice,
-//       filterRooms,
-//       filterGuests,
-//       filterFeatures
-//     ];
-// }
