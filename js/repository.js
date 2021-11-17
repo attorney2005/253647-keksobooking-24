@@ -4,7 +4,7 @@ const PRICE_LOW_LIMIT = 10000;
 const PRICE_MIDDLE = 'middle';
 const PRICE_HIGH = 'high';
 const PRICE_HIGH_LIMIT = 50000;
-const ANNOUNCEMENTS_NUMBER = 10; 
+const ANNOUNCEMENTS_NUMBER = 10;
 
 function createRepository() {
   let data = [];

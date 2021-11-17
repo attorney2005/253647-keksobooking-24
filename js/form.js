@@ -23,7 +23,6 @@ const defaultGuestForRoomMap = {
 function createForm(defaultLocation) {
   const form = document.querySelector('.ad-form');
   const fieldsets = form.querySelectorAll('fieldset');
-  const titleInput = document.querySelector('#title');
   const priceInput = document.querySelector('#price');
   const typeSelect = document.querySelector('#type');
   const roomsSelect = document.querySelector('#room_number');

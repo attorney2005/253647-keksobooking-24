@@ -44,8 +44,8 @@ function createMessageBox() {
       return false;
     }, { once: true });
 
-    return alertContainer
-  };
+    return alertContainer;
+  }
 
   function showFormSuccessMessage() {
     formSuccessMessage.classList.remove('visually-hidden');

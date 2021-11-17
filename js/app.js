@@ -8,8 +8,8 @@ import { createRepository } from './repository.js';
 
 const DEFAULT_LOCATION = {
   lat: 35.68172,
-  lng: 139.75392
-}
+  lng: 139.75392,
+};
 
 function createApp() {
   const form = createForm(DEFAULT_LOCATION);
@@ -65,8 +65,8 @@ function createApp() {
   }
 
   return {
-    start: start
-  }
+    start: start,
+  };
 }
 
 export { createApp };

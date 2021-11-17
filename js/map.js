@@ -126,7 +126,7 @@ function createMap(defaultLocation) {
     showAnnouncements: showAnnouncements,
     reset: reset,
     setAddressSetListener: setAddressSetListener,
-    setLoadListener: setLoadListener
+    setLoadListener: setLoadListener,
   };
 }
 
