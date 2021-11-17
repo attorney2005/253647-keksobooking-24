@@ -1,3 +1,4 @@
+import { debounce } from './utils/debounce.js';
 import { createForm } from './form.js';
 import { createMap } from './map.js';
 import { createApi } from './api.js';
@@ -18,10 +19,9 @@ function createApp() {
   const filters = createFilterForm();
   const repository = createRepository();
 
-  repository.setChangeListener(() => {
-    map.reset();
+  repository.setChangeListener(debounce(() => {
     map.showAnnouncements(repository.getData());
-  });
+  }));
 
   filters.setChangeListener(() => {
     repository.applyFilters(filters.getFilters());
@@ -59,7 +59,6 @@ function createApp() {
     messageBox.showLoadFailureMessage();
   });
 
-  // Public methods
   function start() {
     form.deactivate();
     filters.deactivate();

@@ -17,7 +17,6 @@ function createMap(defaultLocation) {
   tileLayer.addTo(map);
   mainMarker.addTo(map);
 
-  // Private methods
   function createLeafletMap() {
     const leafletMap = L.map('map-canvas');
     leafletMap.on('load', onLeafletMapLoaded);
@@ -81,7 +80,6 @@ function createMap(defaultLocation) {
 
     addressSetListener(getLat(marker), getLng(marker));
 
-    // координаты главной метки при переносе главной метки
     marker.on('moveend', (evt) => {
       addressSetListener(getLat(evt.target), getLng(evt.target));
     });
@@ -97,9 +95,9 @@ function createMap(defaultLocation) {
     return marker.getLatLng().lat.toFixed(LOCATION_ACCURACY);
   }
 
-  // Public methods
   function showAnnouncements(announcements) {
     const markers = createMarkers(announcements);
+    markerGroup.clearLayers();
     markers.forEach((marker) => marker.addTo(markerGroup));
   }
 

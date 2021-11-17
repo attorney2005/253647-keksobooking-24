@@ -11,7 +11,6 @@ function createRepository() {
   let filters = {};
   let changeListener = () => null;
 
-  // Private methods
   function checkType(anouncement) {
     return anouncement.offer.type === filters.type || filters.type === DEFAULT_VALUE;
   }
@@ -52,7 +51,6 @@ function createRepository() {
     return PRICE_HIGH;
   }
 
-  // Public methods
   function putData(newData) {
     data = newData;
     changeListener();

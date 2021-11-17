@@ -6,7 +6,6 @@ function createApi() {
   let dataSendingErrorListener = () => null;
   let dataReceivingErrorListener = () => null;
 
-  // Private methods
   function onDataReceived(res) {
     if (res.ok) {
       res.json().then((data) => dataReceivedListener(data));
@@ -23,7 +22,6 @@ function createApi() {
     }
   }
 
-  // Public methods
   function getData() {
     fetch(getUrl)
       .then((response) => onDataReceived(response))

@@ -21,7 +21,6 @@ function createFilterForm() {
   guestsSelect.addEventListener('change', onGuestsChange);
   featuresSelect.addEventListener('change', onFeaturesChange);
 
-  // Private methods
   function onTypeChange() {
     filters.type = typeSelect.value;
     changeListener();
@@ -45,7 +44,6 @@ function createFilterForm() {
     changeListener();
   }
 
-  // Public methods
   function activate() {
     form.classList.remove('map__filters--disabled');
   }

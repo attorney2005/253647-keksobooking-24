@@ -13,6 +13,13 @@ const roomsToGuestsMap = {
   '100': ['0'],
 };
 
+const defaultGuestForRoomMap = {
+  '1': '1',
+  '2': '1',
+  '3': '1',
+  '100': '0',
+};
+
 function createForm(defaultLocation) {
   const form = document.querySelector('.ad-form');
   const fieldsets = form.querySelectorAll('fieldset');
@@ -40,15 +47,6 @@ function createForm(defaultLocation) {
   setGuestsOptions();
   setAddress(defaultLocation.lat, defaultLocation.lng);
 
-  // Test data
-  // ======================
-  titleInput.value = 'Заполните все обязательные поля, назначьте цену';
-  priceInput.value = 4000;
-  guestsSelect.value = '1';
-  // ======================
-
-
-  // Private methods
   function onFormReset(evt) {
     evt.preventDefault();
     clear();
@@ -78,9 +76,11 @@ function createForm(defaultLocation) {
   function setGuestsOptions() {
     const selectedRoomsOption = roomsSelect.value;
     const availableGuestOptions = roomsToGuestsMap[selectedRoomsOption];
+    const defaultGuestsOption = defaultGuestForRoomMap[selectedRoomsOption];
 
     guestsSelectOptions.forEach((option) => {
       option.disabled = !availableGuestOptions.includes(option.value);
+      option.selected = option.value === defaultGuestsOption;
     });
   }
 
@@ -92,7 +92,6 @@ function createForm(defaultLocation) {
     fieldsets.forEach((fieldset) => fieldset.disabled = false);
   }
 
-  // Public methods
   function activate() {
     form.classList.remove('ad-form--disabled');
     activateFieldsets();
@@ -109,6 +108,7 @@ function createForm(defaultLocation) {
 
   function clear() {
     form.reset();
+    setGuestsOptions();
     setAddress(defaultLocation.lat, defaultLocation.lng);
   }
 

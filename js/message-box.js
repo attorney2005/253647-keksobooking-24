@@ -17,7 +17,6 @@ function createMessageBox() {
 
   hideMessages();
 
-  // Private methods
   function onEscapeClick(evt) {
     if (evt.key === 'Escape') {
       hideMessages();
@@ -48,7 +47,6 @@ function createMessageBox() {
     return alertContainer
   };
 
-  // Public methods
   function showFormSuccessMessage() {
     formSuccessMessage.classList.remove('visually-hidden');
   }
