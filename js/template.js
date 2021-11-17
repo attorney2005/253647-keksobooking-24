@@ -1,3 +1,5 @@
+const MAX_ROOMS_NUMBER = 5;
+
 const typesToTextDictionary = {
   'palace': 'Дворец',
   'flat': 'Квартира',
@@ -13,7 +15,7 @@ function getTypeText(type) {
 function getRoomWord(numberOfRooms) {
   if (numberOfRooms === 1) {
     return 'комната';
-  } else if (numberOfRooms > 1 && numberOfRooms < 5) {
+  } else if (numberOfRooms > 1 && numberOfRooms < MAX_ROOMS_NUMBER) {
     return 'комнаты';
   } else {
     return 'комнат';

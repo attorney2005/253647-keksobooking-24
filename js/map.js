@@ -28,8 +28,6 @@ function createMap(defaultLocation) {
   }
 
   function onLeafletMapLoaded() {
-    // В leaflet обработчик '.on('load', ...)' вызывается синхронно
-    // эта обертка делает вызов асинхронным
     setTimeout(() => loadListener());
   }
 

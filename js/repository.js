@@ -22,7 +22,9 @@ function createRepository() {
   }
 
   function checkRooms(anouncement) {
-    return anouncement.offer.rooms === filters.rooms || filters.rooms === DEFAULT_VALUE;
+    const desiredRooms = filters.rooms;
+    const presentRooms = String(anouncement.offer.rooms);
+    return presentRooms === desiredRooms || desiredRooms === DEFAULT_VALUE;
   }
 
   function checkGuests(anouncement) {

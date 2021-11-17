@@ -35,8 +35,8 @@ function createForm(defaultLocation) {
   let formResetListener = () => null;
   let formSubmitListener = () => null;
 
-  typeSelect.addEventListener('change', setMinPrice);
-  roomsSelect.addEventListener('change', setGuestsOptions);
+  typeSelect.addEventListener('change', onTypeChange);
+  roomsSelect.addEventListener('change', onRoomsChange);
   resetButton.addEventListener('click', onFormReset);
   form.addEventListener('submit', onFormSubmit);
   timeIn.addEventListener('change', onTimeInChange);
@@ -45,6 +45,14 @@ function createForm(defaultLocation) {
   setMinPrice();
   setGuestsOptions();
   setAddress(defaultLocation.lat, defaultLocation.lng);
+
+  function onTypeChange() {
+    setMinPrice();
+  }
+
+  function onRoomsChange() {
+    setGuestsOptions();
+  }
 
   function onFormReset(evt) {
     evt.preventDefault();

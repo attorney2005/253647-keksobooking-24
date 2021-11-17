@@ -11,16 +11,27 @@ function createMessageBox() {
   document.body.appendChild(formSuccessMessage);
   document.body.appendChild(formFailureMessage);
   document.body.appendChild(loadFailureMessage);
-  document.addEventListener('keydown', onEscapeClick);
-  formSuccessMessage.addEventListener('click', hideMessages);
-  formFailureMessage.addEventListener('click', hideMessages);
+  formSuccessMessage.addEventListener('click', onMessageClick);
+  formFailureMessage.addEventListener('click', onMessageClick);
 
   hideMessages();
+
+  function subscribeOnEscapeClick() {
+    document.addEventListener('keydown', onEscapeClick);
+  }
+
+  function unsubscribeOnEscapeClick() {
+    document.removeEventListener('keydown', onEscapeClick);
+  }
 
   function onEscapeClick(evt) {
     if (evt.key === 'Escape') {
       hideMessages();
     }
+  }
+
+  function onMessageClick() {
+    hideMessages();
   }
 
   function createLoadFailureMessage() {
@@ -49,20 +60,24 @@ function createMessageBox() {
 
   function showFormSuccessMessage() {
     formSuccessMessage.classList.remove('visually-hidden');
+    subscribeOnEscapeClick();
   }
 
   function showFormFailureMessage() {
     formFailureMessage.classList.remove('visually-hidden');
+    subscribeOnEscapeClick();
   }
 
   function showLoadFailureMessage() {
     loadFailureMessage.classList.remove('visually-hidden');
+    subscribeOnEscapeClick();
   }
 
   function hideMessages() {
     formSuccessMessage.classList.add('visually-hidden');
     formFailureMessage.classList.add('visually-hidden');
     loadFailureMessage.classList.add('visually-hidden');
+    unsubscribeOnEscapeClick();
   }
 
   return {
