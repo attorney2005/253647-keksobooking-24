@@ -1,13 +1,13 @@
 import { renderAnnouncementCard } from './template.js';
 
-const LAT_TOKIO = 35.68172;
-const LNG_TOKIO = 139.75392;
 const MAIN_PIN_SIZE = 52;
 const USER_PIN_SIZE = 40;
-const FIXED_NUMBER = 5;
+const LOCATION_ACCURACY = 5;
+const DEFAULT_ZOOM = 14;
 
-function createMap(loadMapListener) {
+function createMap(defaultLocation) {
   let addressSetListener = () => null;
+  let loadListener = () => null;
   const map = createLeafletMap();
   const tileLayer = createTileLayer();
   const mainMarker = createMainMarker();
@@ -20,12 +20,18 @@ function createMap(loadMapListener) {
   // Private methods
   function createLeafletMap() {
     const leafletMap = L.map('map-canvas');
-    leafletMap.on('load', () => setTimeout(loadMapListener));
+    leafletMap.on('load', onLeafletMapLoaded);
     leafletMap.setView({
-      lat: LAT_TOKIO,
-      lng: LNG_TOKIO,
-    }, 14);
+      lat: defaultLocation.lat,
+      lng: defaultLocation.lng,
+    }, DEFAULT_ZOOM);
     return leafletMap;
+  }
+
+  function onLeafletMapLoaded() {
+    // В leaflet обработчик '.on('load', ...)' вызывается синхронно
+    // эта обертка делает вызов асинхронным
+    setTimeout(() => loadListener());
   }
 
   function createMarkerGroup() {
@@ -66,8 +72,8 @@ function createMap(loadMapListener) {
     });
 
     const marker = L.marker({
-      lat: LAT_TOKIO,
-      lng: LNG_TOKIO,
+      lat: defaultLocation.lat,
+      lng: defaultLocation.lng,
     }, {
       draggable: true,
       icon: icon,
@@ -84,11 +90,11 @@ function createMap(loadMapListener) {
   }
 
   function getLng(marker) {
-    return marker.getLatLng().lng.toFixed(FIXED_NUMBER);
+    return marker.getLatLng().lng.toFixed(LOCATION_ACCURACY);
   }
 
   function getLat(marker) {
-    return marker.getLatLng().lat.toFixed(FIXED_NUMBER);
+    return marker.getLatLng().lat.toFixed(LOCATION_ACCURACY);
   }
 
   // Public methods
@@ -101,23 +107,28 @@ function createMap(loadMapListener) {
     map.closePopup();
     markerGroup.clearLayers();
     mainMarker.setLatLng({
-      lat: LAT_TOKIO,
-      lng: LNG_TOKIO,
+      lat: defaultLocation.lat,
+      lng: defaultLocation.lng,
     });
     map.setView({
-      lat: LAT_TOKIO,
-      lng: LNG_TOKIO,
-    }, 14);
+      lat: defaultLocation.lat,
+      lng: defaultLocation.lng,
+    }, DEFAULT_ZOOM);
   }
 
   function setAddressSetListener(callback) {
     addressSetListener = callback;
   }
 
+  function setLoadListener(callback) {
+    loadListener = callback;
+  }
+
   return {
     showAnnouncements: showAnnouncements,
     reset: reset,
     setAddressSetListener: setAddressSetListener,
+    setLoadListener: setLoadListener
   };
 }
 

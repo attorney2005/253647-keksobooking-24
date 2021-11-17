@@ -1,5 +1,3 @@
-const LAT_TOKIO = 35.68172;
-const LNG_TOKIO = 139.75392;
 const typeToMinPriceMap = {
   'bungalow': 0,
   'flat': 1000,
@@ -15,7 +13,7 @@ const roomsToGuestsMap = {
   '100': ['0'],
 };
 
-function createForm() {
+function createForm(defaultLocation) {
   const form = document.querySelector('.ad-form');
   const fieldsets = form.querySelectorAll('fieldset');
   const titleInput = document.querySelector('#title');
@@ -31,14 +29,6 @@ function createForm() {
   let formResetListener = () => null;
   let formSubmitListener = () => null;
 
-  titleInput.setAttribute('required', true);
-  titleInput.setAttribute('minlength', '30');
-  titleInput.setAttribute('maxlength', '100');
-
-  priceInput.setAttribute('required', true);
-  priceInput.setAttribute('number', true);
-  priceInput.setAttribute('max', '10000');
-
   typeSelect.addEventListener('change', setMinPrice);
   roomsSelect.addEventListener('change', setGuestsOptions);
   resetButton.addEventListener('click', onFormReset);
@@ -48,19 +38,19 @@ function createForm() {
 
   setMinPrice();
   setGuestsOptions();
-  setAddress(LAT_TOKIO, LNG_TOKIO);
+  setAddress(defaultLocation.lat, defaultLocation.lng);
 
   // Test data
   // ======================
   titleInput.value = 'Заполните все обязательные поля, назначьте цену';
   priceInput.value = 4000;
-  roomsSelect.value = '2';
   guestsSelect.value = '1';
   // ======================
 
 
   // Private methods
-  function onFormReset() {
+  function onFormReset(evt) {
+    evt.preventDefault();
     clear();
     formResetListener();
   }
@@ -119,6 +109,7 @@ function createForm() {
 
   function clear() {
     form.reset();
+    setAddress(defaultLocation.lat, defaultLocation.lng);
   }
 
   function addSubmitListener(callback) {

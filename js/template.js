@@ -1,12 +1,13 @@
+const typesToTextDictionary = {
+  'palace': 'Дворец',
+  'flat': 'Квартира',
+  'house': 'Дом',
+  'bungalow': 'Бунгало',
+  'hotel': 'Отель',
+};
+
 function getTypeText(type) {
-  const TYPES_TO_TEXT_DICTIONARY = {
-    'palace': 'Дворец',
-    'flat': 'Квартира',
-    'house': 'Дом',
-    'bungalow': 'Бунгало',
-    'hotel': 'Отель',
-  };
-  return TYPES_TO_TEXT_DICTIONARY[type];
+  return typesToTextDictionary[type];
 }
 
 function getRoomWord(numberOfRooms) {
