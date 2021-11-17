@@ -85,4 +85,4 @@ function createRepository() {
   };
 }
 
-export { createRepository };
+export { createRepository, DEFAULT_VALUE };

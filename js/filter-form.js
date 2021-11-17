@@ -1,3 +1,5 @@
+import { DEFAULT_VALUE } from './repository.js';
+ 
 function createFilterForm() {
   const form = document.querySelector('.map__filters');
   const typeSelect = document.querySelector('#housing-type');
@@ -7,10 +9,10 @@ function createFilterForm() {
   const featuresSelect = document.querySelector('#housing-features');
   const featuresCheckboxes = Array.from(featuresSelect.querySelectorAll('input'));
   const filters = {
-    type: 'any',
-    price: 'any',
-    rooms: 'any',
-    guests: 'any',
+    type: DEFAULT_VALUE,
+    price: DEFAULT_VALUE,
+    rooms: DEFAULT_VALUE,
+    guests: DEFAULT_VALUE,
     features: [],
   };
   let changeListener = () => null;
