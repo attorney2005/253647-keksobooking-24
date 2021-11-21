@@ -138,7 +138,7 @@ const formComponent = {
   setAddress,
   clear,
   addSubmitListener,
-  addResetListener
+  addResetListener,
 };
 
 export { formComponent };

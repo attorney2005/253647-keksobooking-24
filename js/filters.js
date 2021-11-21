@@ -45,7 +45,7 @@ function getDefaultState() {
     price: DEFAULT_VALUE,
     rooms: DEFAULT_VALUE,
     guests: DEFAULT_VALUE,
-    features: []
+    features: [],
   };
 }
 
@@ -76,7 +76,7 @@ const filtersComponent = {
   deactivate,
   setChangeListener,
   getFilters,
-  reset
+  reset,
 };
 
 export { filtersComponent };

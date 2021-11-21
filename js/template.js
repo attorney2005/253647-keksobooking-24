@@ -18,7 +18,7 @@ function getRoomWord(numberOfRooms) {
   }
   if (numberOfRooms > 1 && numberOfRooms < MAX_ROOMS_NUMBER) {
     return 'комнаты';
-  } 
+  }
   return 'комнат';
 }
 

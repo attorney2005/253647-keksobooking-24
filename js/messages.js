@@ -82,7 +82,7 @@ const messagesComponent = {
   showFormSuccessMessage,
   showFormFailureMessage,
   showLoadFailureMessage,
-  hideMessages
+  hideMessages,
 };
 
 export { messagesComponent };

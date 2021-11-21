@@ -55,7 +55,7 @@ const api = {
   setDataReceivedListener,
   setDataSentListener,
   setDataSendingErrorListener,
-  setDataReceivingErrorListener
+  setDataReceivingErrorListener,
 };
 
 export { api };

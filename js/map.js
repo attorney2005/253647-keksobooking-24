@@ -127,7 +127,7 @@ const mapComponent = {
   showAnnouncements,
   reset,
   setAddressSetListener,
-  setLoadListener
+  setLoadListener,
 };
 
 export { mapComponent };
