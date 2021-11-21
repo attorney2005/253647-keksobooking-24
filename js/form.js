@@ -27,14 +27,14 @@ const defaultGuestForRoomMap = {
 
 const formElement = document.querySelector('.ad-form');
 const fieldsets = formElement.querySelectorAll('fieldset');
-const priceInput = document.querySelector('#price');
-const typeSelect = document.querySelector('#type');
-const roomsSelect = document.querySelector('#room_number');
-const guestsSelect = document.querySelector('#capacity');
+const priceInput = formElement.querySelector('#price');
+const typeSelect = formElement.querySelector('#type');
+const roomsSelect = formElement.querySelector('#room_number');
+const guestsSelect = formElement.querySelector('#capacity');
 const guestsSelectOptions = guestsSelect.querySelectorAll('option');
-const addressField = document.querySelector('#address');
-const timeIn = document.querySelector('#timein');
-const timeOut = document.querySelector('#timeout');
+const addressField = formElement.querySelector('#address');
+const timeIn = formElement.querySelector('#timein');
+const timeOut = formElement.querySelector('#timeout');
 const resetButton = formElement.querySelector('.ad-form__reset');
 let formResetListener = () => null;
 let formSubmitListener = () => null;
@@ -120,6 +120,7 @@ function setAddress(lat, lng) {
 function clear() {
   formElement.reset();
   setGuestsOptions();
+  setMinPrice();
   setAddress(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng);
 }
 

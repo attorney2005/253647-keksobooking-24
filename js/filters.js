@@ -1,19 +1,13 @@
-import { DEFAULT_VALUE } from './repository.js';
+import { DEFAULT_VALUE } from './data.js';
 
 const form = document.querySelector('.map__filters');
-const typeSelect = document.querySelector('#housing-type');
-const priceSelect = document.querySelector('#housing-price');
-const roomsSelect = document.querySelector('#housing-rooms');
-const guestsSelect = document.querySelector('#housing-guests');
-const featuresSelect = document.querySelector('#housing-features');
+const typeSelect = form.querySelector('#housing-type');
+const priceSelect = form.querySelector('#housing-price');
+const roomsSelect = form.querySelector('#housing-rooms');
+const guestsSelect = form.querySelector('#housing-guests');
+const featuresSelect = form.querySelector('#housing-features');
 const featuresCheckboxes = Array.from(featuresSelect.querySelectorAll('input'));
-const state = {
-  type: DEFAULT_VALUE,
-  price: DEFAULT_VALUE,
-  rooms: DEFAULT_VALUE,
-  guests: DEFAULT_VALUE,
-  features: [],
-};
+let state = getDefaultState();
 let changeListener = () => null;
 
 typeSelect.addEventListener('change', onTypeChange);
@@ -45,6 +39,16 @@ function onFeaturesChange() {
   changeListener();
 }
 
+function getDefaultState() {
+  return {
+    type: DEFAULT_VALUE,
+    price: DEFAULT_VALUE,
+    rooms: DEFAULT_VALUE,
+    guests: DEFAULT_VALUE,
+    features: []
+  };
+}
+
 function activate() {
   form.classList.remove('map__filters--disabled');
 }
@@ -57,6 +61,12 @@ function setChangeListener(callback) {
   changeListener = callback;
 }
 
+function reset() {
+  state = getDefaultState();
+  form.reset();
+  changeListener();
+}
+
 function getFilters() {
   return state;
 }
@@ -65,7 +75,8 @@ const filtersComponent = {
   activate,
   deactivate,
   setChangeListener,
-  getFilters
+  getFilters,
+  reset
 };
 
 export { filtersComponent };

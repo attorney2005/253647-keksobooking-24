@@ -1,6 +1,6 @@
 import { debounce } from './utils/debounce.js';
 import { api } from './api.js';
-import { repository } from './repository.js';
+import { repository } from './data.js';
 import { formComponent } from './form.js';
 import { mapComponent } from './map.js';
 import { messagesComponent } from './messages.js';
@@ -18,6 +18,7 @@ formComponent.addSubmitListener((formData) => {
   api.sendData(formData);
 });
 formComponent.addResetListener(() => {
+  filtersComponent.reset();
   mapComponent.reset();
   mapComponent.showAnnouncements(repository.getData());
 });

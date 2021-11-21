@@ -15,11 +15,11 @@ function getTypeText(type) {
 function getRoomWord(numberOfRooms) {
   if (numberOfRooms === 1) {
     return 'комната';
-  } else if (numberOfRooms > 1 && numberOfRooms < MAX_ROOMS_NUMBER) {
-    return 'комнаты';
-  } else {
-    return 'комнат';
   }
+  if (numberOfRooms > 1 && numberOfRooms < MAX_ROOMS_NUMBER) {
+    return 'комнаты';
+  } 
+  return 'комнат';
 }
 
 function getGuestWord(numberOfGuests) {

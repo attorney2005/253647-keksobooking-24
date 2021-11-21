@@ -29,10 +29,7 @@ function checkRooms(anouncement) {
 function checkGuests(anouncement) {
   const desiredGuests = filters.guests;
   const presentCapacity = anouncement.offer.guests;
-  if (desiredGuests === DEFAULT_VALUE) {
-    return true;
-  }
-  return presentCapacity > Number(desiredGuests);
+  return desiredGuests === DEFAULT_VALUE || presentCapacity >= Number(desiredGuests)
 }
 
 function checkFeatures(anouncement) {
