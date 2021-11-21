@@ -40,7 +40,7 @@ api.setDataSentListener(() => {
   messagesComponent.showFormSuccessMessage();
   formComponent.clear();
 });
-api.setDataSendingErrorListener((err) => {
+api.setDataSendingErrorListener(() => {
   messagesComponent.showFormFailureMessage();
 });
 api.setDataReceivingErrorListener(() => {
