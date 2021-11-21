@@ -65,14 +65,14 @@ function getData() {
   for (let i = 0; i < data.length && result.length !== ANNOUNCEMENTS_NUMBER; i++) {
     const announcement = data[i];
     if (
-      checkType(announcement) 
-      && checkPrice(announcement) 
-      && checkRooms(announcement) 
-      && checkGuests(announcement) 
+      checkType(announcement)
+      && checkPrice(announcement)
+      && checkRooms(announcement)
+      && checkGuests(announcement)
       && checkFeatures(announcement)
     ) {
       result.push(announcement);
-    } 
+    }
   }
 
   return result;
