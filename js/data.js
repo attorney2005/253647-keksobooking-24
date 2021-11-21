@@ -60,13 +60,22 @@ function applyFilters(newFilters) {
 }
 
 function getData() {
-  return data
-    .filter(checkType)
-    .filter(checkPrice)
-    .filter(checkRooms)
-    .filter(checkGuests)
-    .filter(checkFeatures)
-    .slice(0, ANNOUNCEMENTS_NUMBER);
+  const result = [];
+
+  for (let i = 0; i < data.length && result.length !== ANNOUNCEMENTS_NUMBER; i++) {
+    const announcement = data[i];
+    if (
+      checkType(announcement) 
+      && checkPrice(announcement) 
+      && checkRooms(announcement) 
+      && checkGuests(announcement) 
+      && checkFeatures(announcement)
+    ) {
+      result.push(announcement);
+    } 
+  }
+
+  return result;
 }
 
 function setChangeListener(callback) {
